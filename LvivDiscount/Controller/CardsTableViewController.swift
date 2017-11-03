@@ -12,7 +12,6 @@ import CoreData
 class CardsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
 	
 	
-
 	var cards:[CardMO] = []
 	var searchResults: [CardMO] = []
 	
@@ -23,19 +22,19 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		dismiss(animated: true, completion: nil)
 	}
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		tableView.cellLayoutMarginsFollowReadableWidth = true
 		navigationController?.navigationBar.prefersLargeTitles = true
 		
 		//tableView.tableFooterView = UIView()
 		
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+		// Uncomment the following line to preserve selection between presentations
+		// self.clearsSelectionOnViewWillAppear = false
+		
+		// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+		// self.navigationItem.rightBarButtonItem = self.editButtonItem
 		
 		
 		
@@ -47,9 +46,9 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		searchController.searchBar.barTintColor = .white
 		searchController.searchBar.backgroundImage = UIImage()
 		//searchController.searchBar.tintColor = UIColor(red: 231, green: 76, blue: 60)
-		        self.navigationItem.searchController = searchController
+		self.navigationItem.searchController = searchController
 		//tableView.tableHeaderView = searchController.searchBar
-
+		
 		
 		// Fetch data from data store
 		let fetchRequest: NSFetchRequest<CardMO> = CardMO.fetchRequest()
@@ -70,32 +69,32 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 				print(error)
 			}
 		}
-
+		
 		tableView.tableFooterView = UIView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+	}
 	
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func didReceiveMemoryWarning() {
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+	
+	
+	// MARK: - Table view data source
+	
+	override func numberOfSections(in tableView: UITableView) -> Int {
+		return 1
+	}
+	
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if searchController.isActive {
 			return searchResults.count
 		} else {
 			return cards.count
 		}
-    }
-
+	}
 	
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
 		if let cell = tableView.dequeueReusableCell(withIdentifier: "CardCell", for: indexPath) as? CardCell {
 			
@@ -107,9 +106,9 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 		
 		return UITableViewCell()
-    }
+	}
 	
-
+	
 	override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 		
 		let deleteAction = UIContextualAction(style: .destructive, title: "") { (action, sourceView, completionHandler) in
@@ -136,7 +135,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			//	let imageToShare = UIImage(data: cardImage as Data) {
 			//	activityController = UIActivityViewController(activityItems: [defaultText, imageToShare], applicationActivities: nil)
 			//} else  {
-				activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
+			activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
 			//}
 			
 			if let popoverController = activityController.popoverPresentationController {
@@ -160,7 +159,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		return swipeConfiguration
 	}
-
+	
 	
 	
 	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -191,15 +190,15 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 	}
 	
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+	/*
+	// MARK: - Navigation
+	
+	// In a storyboard-based application, you will often want to do a little preparation before navigation
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+	// Get the new view controller using segue.destinationViewController.
+	// Pass the selected object to the new view controller.
+	}
+	*/
 	
 	
 	
@@ -236,5 +235,5 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 		tableView.endUpdates()
 	}
-
+	
 }
