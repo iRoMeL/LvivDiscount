@@ -12,11 +12,11 @@ import CoreData
 class CardsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
 	
 	
-	var cards:[CardMO] = []
-	var searchResults: [CardMO] = []
+	private var cards:[CardMO] = []
+	private var searchResults: [CardMO] = []
 	
-	var fetchResultController: NSFetchedResultsController<CardMO>!
-	var searchController: UISearchController!
+	private var fetchResultController: NSFetchedResultsController<CardMO>!
+	private var searchController: UISearchController!
 	
 	@IBAction func unwindToHome(segue: UIStoryboardSegue) {
 		dismiss(animated: true, completion: nil)
@@ -26,7 +26,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		super.viewDidLoad()
 		
 		tableView.cellLayoutMarginsFollowReadableWidth = true
-		navigationController?.navigationBar.prefersLargeTitles = true
+		//navigationController?.navigationBar.prefersLargeTitles = true
 		
 		//tableView.tableFooterView = UIView()
 		
@@ -36,6 +36,9 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
 		// self.navigationItem.rightBarButtonItem = self.editButtonItem
 		
+		//кнопка  Sort
+		self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(showSortActionSheet))
+
 		
 		
 		// Adding a search bar
@@ -109,8 +112,58 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	}
 	
 	
+	@objc func showSortActionSheet() {
+		
+		
+		let alertController = UIAlertController(title: "Sorting ", message: nil, preferredStyle: .actionSheet)
+		
+		let AZAction = UIAlertAction(title: "A-Z ⬇", style: .default) { _ in
+			
+			self.cards.sort() {$0.name! < $1.name!}
+			self.tableView.reloadData()
+			
+		}
+		
+		let ZAAction = UIAlertAction(title: "Z-A ⬆", style: .default) { _ in
+			
+			self.cards.sort(){$0.name! > $1.name!}
+			self.tableView.reloadData()
+			
+		}
+		
+		
+		
+		
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+			
+			
+		}
+		
+		// Add the actions.
+		alertController.addAction(AZAction)
+		alertController.addAction(ZAAction)
+		alertController.addAction(cancelAction)
+		
+		
+		// Configure the alert controller's popover presentation controller if it has one.
+		if let popoverPresentationController = alertController.popoverPresentationController {
+			// This method expects a valid cell to display from.
+			//popoverPresentationController.canOverlapSourceViewRect = true
+			popoverPresentationController.backgroundColor = UIColor.brown
+			popoverPresentationController.sourceView = view
+			popoverPresentationController.permittedArrowDirections = .up
+		}
+		
+		present(alertController, animated: true, completion: nil)
+		
+		
+	}
+
+	
 	override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 		
+		
+		//DELETE BUTTON
 		let deleteAction = UIContextualAction(style: .destructive, title: "") { (action, sourceView, completionHandler) in
 			// Delete the row from the data store
 			if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
@@ -125,6 +178,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			completionHandler(true)
 		}
 		
+		//SHARE BUTTON
 		let shareAction = UIContextualAction(style: .normal, title: "") { (action, sourceView, completionHandler) in
 			
 			let defaultText = "Check this out " + self.cards[indexPath.row].name!
@@ -149,13 +203,40 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			completionHandler(true)
 		}
 		
-		// Customize the action buttons
-		deleteAction.backgroundColor = UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: 1.0)
-		deleteAction.image = UIImage(named: "delete")
-		shareAction.backgroundColor = UIColor(red: 254.0/255.0, green: 149.0/255.0, blue: 38.0/255.0, alpha: 1.0)
-		shareAction.image = UIImage(named: "share")
+		//EDIT BUTTON
+		let editAction = UIContextualAction(style: .destructive, title: "") { (action, sourceView, completionHandler) in
+			
+			
+			//if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+			//	let context = appDelegate.persistentContainer.viewContext
+			//	let restaurantToDelete = self.fetchResultController.object(at: indexPath)
+			//	context.delete(restaurantToDelete)
+				
+			//	appDelegate.saveContext()
+			//}
+
+			
+			//if var card = self.cards[indexPath.row]  {
+				self.performSegue(withIdentifier: "EditCard", sender: self.cards[indexPath.row])
+			//}
+			
+			
+			// Call completion handler with true to indicate
+			completionHandler(true)
+		}
+
 		
-		let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+		
+		// Customize the action buttons
+		deleteAction.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+		deleteAction.image = UIImage(named: "delete")
+		shareAction.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+		shareAction.image = UIImage(named: "share")
+		editAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+		editAction.image = UIImage(named: "edit")
+		
+		
+		let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction,editAction])
 		
 		return swipeConfiguration
 	}
@@ -199,6 +280,16 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	// Pass the selected object to the new view controller.
 	}
 	*/
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "DetailCardViewController" {
+			if let indexPath = tableView.indexPathForSelectedRow {
+				let destinationController = segue.destination as! DetailCardViewController
+				destinationController.card = (searchController.isActive) ? searchResults[indexPath.row] : cards[indexPath.row]
+			}
+		}
+	}
+
 	
 	
 	

@@ -29,18 +29,17 @@ class CardCell: UITableViewCell {
 	
 	func configureCell(withcard card:CardMO)  {
 		
-		//kingfisher
-		//let imageUrl = card.imageUrl
 		
-		//if  imageUrl.isEmpty {
-			
-		//	self.imagecell.kf.base.image = #imageLiteral(resourceName: "placeholder.png")
-			
-		//} else {
-		//	let url = URL(string: imageUrl)!
-		//	self.imagecell.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "placeholder.png"))
-		//}
+		let fileManager = FileManager.default
 		
+		let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+
+		let imagePAth = (paths as NSString).appendingPathComponent(card.frontimage!)
+		if fileManager.fileExists(atPath: imagePAth){
+			self.imagecell.image = UIImage(contentsOfFile: imagePAth)
+		}else{
+			print("No Image")
+		}
 		
 		self.name.text			= card.name ?? ""
 		self.summary.text		= card.summary ?? ""
@@ -48,6 +47,7 @@ class CardCell: UITableViewCell {
 		
 		
 	}
+	
 
 
 }
