@@ -30,6 +30,13 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		//tableView.tableFooterView = UIView()
 		
+		
+		
+		tableView.separatorColor = Theme.Colors.LightTextColor.color
+		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
+		//tableView.tableFooterView = UIView()
+
+		
 		// Uncomment the following line to preserve selection between presentations
 		// self.clearsSelectionOnViewWillAppear = false
 		
@@ -40,17 +47,38 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(showSortActionSheet))
 
 		
-		
+		//при початковому завантажені приховуємо пошук
+		let offset = CGPoint(x: 0, y: 44)
+		tableView.setContentOffset(offset, animated: true)
+
 		// Adding a search bar
 		searchController = UISearchController(searchResultsController: nil)
 		searchController.searchResultsUpdater = self
 		searchController.dimsBackgroundDuringPresentation = false
 		searchController.searchBar.placeholder = NSLocalizedString("Search cards...", comment: "Search cards...")
-		searchController.searchBar.barTintColor = .white
-		searchController.searchBar.backgroundImage = UIImage()
-		//searchController.searchBar.tintColor = UIColor(red: 231, green: 76, blue: 60)
-		self.navigationItem.searchController = searchController
-		//tableView.tableHeaderView = searchController.searchBar
+		//searchController.searchBar.barTintColor = .white
+		//searchController.searchBar.backgroundImage = UIImage()
+		
+		searchController.searchBar.barTintColor				= Theme.Colors.BackgroundColor.color
+		searchController.searchBar.tintColor				= Theme.Colors.TintColor.color
+		searchController.searchBar.enablesReturnKeyAutomatically = true
+		searchController.searchBar.keyboardAppearance		= .dark
+
+		if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+			textFieldInsideSearchBar.textColor = Theme.Colors.TintColor.color
+			textFieldInsideSearchBar.borderStyle = .roundedRect
+			textFieldInsideSearchBar.backgroundColor = Theme.Colors.BackgroundColor.color
+		}
+
+		
+		definesPresentationContext = true
+		
+		if #available(iOS 11.0, *) {
+			self.navigationItem.searchController = searchController
+			searchController.isActive = true
+		}else {
+			tableView.tableHeaderView = searchController.searchBar
+		}
 		
 		
 		// Fetch data from data store
@@ -131,11 +159,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			
 		}
 		
-		
-		
-		
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-			
 			
 		}
 		
@@ -327,4 +351,24 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		tableView.endUpdates()
 	}
 	
+	func search(with searchString: String) {
+		searchController.searchBar.text = searchString
+		searchController.searchBar.becomeFirstResponder()
+	}
+	
+	var isFilterActive: Bool {
+		return (searchController.searchBar.text != "")
+	}
+	
+}
+
+
+
+public extension UISearchBar {
+	
+	public func setTextColor(color: UIColor) {
+		let svs = subviews.flatMap { $0.subviews }
+		guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return }
+		tf.textColor = color
+	}
 }

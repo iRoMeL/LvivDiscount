@@ -19,6 +19,8 @@ class DetailCardViewController: UIViewController, CardPageViewControllerDelegate
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		
+		
 		// Do any additional setup after loading the view.
 	}
 	
@@ -33,7 +35,7 @@ class DetailCardViewController: UIViewController, CardPageViewControllerDelegate
 		if let pageViewController = destination as? CardPVC {
 			cardPVC = pageViewController
 			cardPVC?.cardDelegate = self
-			cardPVC?.pageImages = [card.frontimage!, card.frontimage!,card.frontimage!]
+			cardPVC?.pageImages = [card.frontimage!, card.backtimage!,card.frontimage!]
 		}
 	}
 	

@@ -9,25 +9,85 @@
 import UIKit
 import CoreData
 
-class NewCardViewController: UITableViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, WDImagePickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 	
 	@IBOutlet weak var nameTextField: RoundedTextField!
 	@IBOutlet weak var descriptionTextView: UITextView!
-	
 	@IBOutlet weak var frontImageView: UIImageView!
+	@IBOutlet weak var backImageView: UIImageView!
 	
+	fileprivate var imagePicker: WDImagePicker!
+	fileprivate var imagePickerController: UIImagePickerController!
 	
+	fileprivate var choosingFront = true
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		tableView.separatorStyle = .none
-				
+		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
+		
+		
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapfrontImageView(sender:)))
+		frontImageView.addGestureRecognizer(tapGesture)
+		
+		let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(self.tapbackImageView(sender:)))
+		backImageView.addGestureRecognizer(tapGestureBack)
+		
 		// Uncomment the following line to preserve selection between presentations
 		// self.clearsSelectionOnViewWillAppear = false
 		
 		// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
 		// self.navigationItem.rightBarButtonItem = self.editButtonItem
+	}
+	
+	@objc func tapfrontImageView(sender: UITapGestureRecognizer) {
+		choosingFront = true
+		chooseImage()
+	}
+	
+	@objc func tapbackImageView(sender: UITapGestureRecognizer) {
+		choosingFront = false
+		chooseImage()
+	}
+	
+	
+	
+	
+	func chooseImage() {
+		
+		
+		let photoSourceRequestController = UIAlertController(title: "", message: NSLocalizedString("Choose your photo source", comment: "Choose your photo source"), preferredStyle: .actionSheet)
+		
+		let cameraAction = UIAlertAction(title: NSLocalizedString("Camera", comment: "Camera"), style: .default, handler: { (action) in
+			if UIImagePickerController.isSourceTypeAvailable(.camera) {
+				self.imagePicker = WDImagePicker(sourceType: .camera)
+				///self.imagePicker.cropSize = CGSize(width: 320, height: 200)
+				self.imagePicker.delegate = self
+				self.imagePicker.resizableCropArea = true
+				self.present(self.imagePicker.imagePickerController, animated: true, completion: nil)
+			}
+		})
+		
+		let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo library", comment: "Photo library"), style: .default, handler: { (action) in
+			if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+				self.imagePicker = WDImagePicker(sourceType: .photoLibrary)
+				//self.imagePicker.cropSize = CGSize(width: 320, height: 200)
+				self.imagePicker.delegate = self
+				self.imagePicker.resizableCropArea = true
+				self.present(self.imagePicker.imagePickerController, animated: true, completion: nil)
+			}
+		})
+		
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+		}
+		
+		photoSourceRequestController.addAction(cameraAction)
+		photoSourceRequestController.addAction(photoLibraryAction)
+		photoSourceRequestController.addAction(cancelAction)
+		
+		present(photoSourceRequestController, animated: true, completion: nil)
+		
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -60,16 +120,29 @@ class NewCardViewController: UITableViewController,UIImagePickerControllerDelega
 			newCard.summary = descriptionTextView.text
 			
 			if let cardImage = frontImageView.image {
-			//	newCard = UIImagePNGRepresentation(cardImage)
+				
+				
+				let frontImage = nameTextField.text! + "_front.jpeg"
+				
+				newCard.frontimage	= frontImage
+				saveImageDocumentDirectory(image: cardImage, imageName: frontImage)
+				
+				
+				print("Saving data to context ...")
+				appDelegate.saveContext()
+			}
 			
-			let frontImage = nameTextField.text! + ".jpeg"
-			
-			newCard.frontimage	= frontImage
-			saveImageDocumentDirectory(image: cardImage, imageName: frontImage)
-			
-			
-			print("Saving data to context ...")
-			appDelegate.saveContext()
+			if let cardImage = backImageView.image {
+				
+				
+				let backside = nameTextField.text! + "_back.jpeg"
+				
+				newCard.backtimage	= backside
+				saveImageDocumentDirectory(image: cardImage, imageName: backside)
+				
+				
+				print("Saving data to context ...")
+				appDelegate.saveContext()
 			}
 		}
 		
@@ -80,44 +153,6 @@ class NewCardViewController: UITableViewController,UIImagePickerControllerDelega
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath.row == 0 {
 			
-			let photoSourceRequestController = UIAlertController(title: "", message: NSLocalizedString("Choose your photo source", comment: "Choose your photo source"), preferredStyle: .actionSheet)
-			
-			let cameraAction = UIAlertAction(title: NSLocalizedString("Camera", comment: "Camera"), style: .default, handler: { (action) in
-				if UIImagePickerController.isSourceTypeAvailable(.camera) {
-					let imagePicker = UIImagePickerController()
-					imagePicker.delegate = self
-					imagePicker.allowsEditing = false
-					imagePicker.sourceType = .camera
-					
-					let mainView = UIView.init(frame: CGRect.init(x: 150, y: 150, width: self.view.frame.size.width - 150, height: self.view.frame.size.height-150))
-					
-					
-					
-					imagePicker.cameraOverlayView = mainView
-
-					
-					self.present(imagePicker, animated: true, completion: nil)
-				}
-			})
-			
-			let photoLibraryAction = UIAlertAction(title: NSLocalizedString("Photo library", comment: "Photo library"), style: .default, handler: { (action) in
-				if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-					let imagePicker = UIImagePickerController()
-					imagePicker.delegate = self
-					imagePicker.allowsEditing = false
-					imagePicker.sourceType = .photoLibrary
-					
-					
-					//imagePicker.cameraOverlayView =
-					
-					self.present(imagePicker, animated: true, completion: nil)
-				}
-			})
-			
-			photoSourceRequestController.addAction(cameraAction)
-			photoSourceRequestController.addAction(photoLibraryAction)
-			
-			present(photoSourceRequestController, animated: true, completion: nil)
 			
 		}
 	}
@@ -130,36 +165,52 @@ class NewCardViewController: UITableViewController,UIImagePickerControllerDelega
 		let imageData = UIImageJPEGRepresentation(image, 0.5)
 		fileManager.createFile(atPath: paths as String, contents: imageData, attributes: nil)
 	}
-
+	
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 		if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-			frontImageView.image = selectedImage
-			frontImageView.contentMode = .scaleAspectFill
-			frontImageView.clipsToBounds = true			
+			
+			if choosingFront {
+				frontImageView.image = selectedImage
+				frontImageView.contentMode = .scaleAspectFill
+				frontImageView.clipsToBounds = true
+				
+			} else {
+				backImageView.image = selectedImage
+				backImageView.contentMode = .scaleAspectFill
+				backImageView.clipsToBounds = true
+				
+			}
 		}
 		
-		let leadingConstraint = NSLayoutConstraint(item: frontImageView, attribute: .leading, relatedBy: .equal, toItem: frontImageView.superview, attribute: .leading, multiplier: 1, constant: 0)
-		leadingConstraint.isActive = true
 		
-		let trailingConstraint = NSLayoutConstraint(item: frontImageView, attribute: .trailing, relatedBy: .equal, toItem: frontImageView.superview, attribute: .trailing, multiplier: 1, constant: 0)
-		trailingConstraint.isActive = true
-		
-		let topConstraint = NSLayoutConstraint(item: frontImageView, attribute: .top, relatedBy: .equal, toItem: frontImageView.superview, attribute: .top, multiplier: 1, constant: 0)
-		topConstraint.isActive = true
-		
-		let bottomConstraint = NSLayoutConstraint(item: frontImageView, attribute: .bottom, relatedBy: .equal, toItem: frontImageView.superview, attribute: .bottom, multiplier: 1, constant: 0)
-		bottomConstraint.isActive = true
 		
 		dismiss(animated: true, completion: nil)
 	}
 	
+	
+	func imagePicker(_ imagePicker: WDImagePicker, pickedImage: UIImage) {
+		if choosingFront {
+			
+			self.frontImageView.image = pickedImage
+		}else{
+			self.backImageView.image = pickedImage
+		}
+		self.hideImagePicker()
+	}
+	
+	func hideImagePicker() {
+		
+		self.imagePicker.imagePickerController.dismiss(animated: true, completion: nil)
+		
+	}
 	
 	func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
 		dismiss(animated: true, completion: nil)
 	}
 	
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return true
+	}
 	
-	
-
 	
 }
