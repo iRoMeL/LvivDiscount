@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5245CD241FB4FC4B00EDE1D2 /* UITextFieldX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5245CD231FB4FC4A00EDE1D2 /* UITextFieldX.swift */; };
 		5275849C1FAA7ECD001CB470 /* RoundedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5275849B1FAA7ECD001CB470 /* RoundedTextField.swift */; };
 		52899B681FAA684300949684 /* CardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52899B671FAA684300949684 /* CardsTableViewController.swift */; };
 		52899B6C1FAA6BE500949684 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52899B6A1FAA6BE500949684 /* Card.xcdatamodeld */; };
@@ -24,14 +25,17 @@
 		529FAF281FB107200097F1B1 /* UIImageViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529FAF271FB107200097F1B1 /* UIImageViewX.swift */; };
 		529FAF2A1FB129470097F1B1 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529FAF291FB129470097F1B1 /* AppAppearance.swift */; };
 		529FAF2C1FB1C1240097F1B1 /* FileManagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */; };
+		529FAF2E1FB1FD480097F1B1 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529FAF2D1FB1FD480097F1B1 /* UIImage+Ext.swift */; };
 		52B4AC7C1FA9AFC70028DC7D /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B4AC7B1FA9AFC70028DC7D /* CardCell.swift */; };
 		52BC558E1FA68E02003A46D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BC558D1FA68E02003A46D5 /* AppDelegate.swift */; };
 		52BC55931FA68E02003A46D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55911FA68E02003A46D5 /* Main.storyboard */; };
 		52BC55981FA68E02003A46D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55971FA68E02003A46D5 /* Assets.xcassets */; };
 		52BC559B1FA68E02003A46D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55991FA68E02003A46D5 /* LaunchScreen.storyboard */; };
+		52E266B31FB20A970025CD61 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E266B21FB20A970025CD61 /* ScanViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5245CD231FB4FC4A00EDE1D2 /* UITextFieldX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldX.swift; sourceTree = "<group>"; };
 		5275849B1FAA7ECD001CB470 /* RoundedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
 		52899B671FAA684300949684 /* CardsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsTableViewController.swift; sourceTree = "<group>"; };
 		52899B6B1FAA6BE500949684 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
@@ -49,6 +53,7 @@
 		529FAF271FB107200097F1B1 /* UIImageViewX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewX.swift; sourceTree = "<group>"; };
 		529FAF291FB129470097F1B1 /* AppAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerHelper.swift; sourceTree = "<group>"; };
+		529FAF2D1FB1FD480097F1B1 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		52B4AC7B1FA9AFC70028DC7D /* CardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		52BC558A1FA68E02003A46D5 /* LvivDiscount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LvivDiscount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52BC558D1FA68E02003A46D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +61,7 @@
 		52BC55971FA68E02003A46D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52BC559A1FA68E02003A46D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52BC559C1FA68E02003A46D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52E266B21FB20A970025CD61 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,12 +97,22 @@
 			path = WD;
 			sourceTree = "<group>";
 		};
+		529FAF2F1FB1FD620097F1B1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				529FAF2D1FB1FD480097F1B1 /* UIImage+Ext.swift */,
+				529FAF071FAF8AD40097F1B1 /* UIColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		52BC55811FA68E02003A46D5 = {
 			isa = PBXGroup;
 			children = (
 				52BC558D1FA68E02003A46D5 /* AppDelegate.swift */,
 				529FAF291FB129470097F1B1 /* AppAppearance.swift */,
 				529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */,
+				529FAF2F1FB1FD620097F1B1 /* Extensions */,
 				52BC558C1FA68E02003A46D5 /* LvivDiscount */,
 				52BC558B1FA68E02003A46D5 /* Products */,
 			);
@@ -114,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				52BC559C1FA68E02003A46D5 /* Info.plist */,
-				529FAF071FAF8AD40097F1B1 /* UIColor.swift */,
 				529FAF1A1FB0F39B0097F1B1 /* WD */,
 				52899B691FAA6A6400949684 /* Storyboard */,
 				52BC55A51FA68FAA003A46D5 /* View */,
@@ -136,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				529FAF271FB107200097F1B1 /* UIImageViewX.swift */,
+				5245CD231FB4FC4A00EDE1D2 /* UITextFieldX.swift */,
 				52B4AC7B1FA9AFC70028DC7D /* CardCell.swift */,
 				5275849B1FAA7ECD001CB470 /* RoundedTextField.swift */,
 			);
@@ -146,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				52899B6F1FAA71A800949684 /* NewCardViewController.swift */,
+				52E266B21FB20A970025CD61 /* ScanViewController.swift */,
 				529FAF031FAF76820097F1B1 /* CardPVC.swift */,
 				529FAF011FAF71A10097F1B1 /* DetailCardViewController.swift */,
 				529FAF051FAF79C30097F1B1 /* CardContentViewController.swift */,
@@ -240,8 +257,11 @@
 				529FAF231FB0F3C20097F1B1 /* WDImagePicker.swift in Sources */,
 				529FAF2A1FB129470097F1B1 /* AppAppearance.swift in Sources */,
 				529FAF241FB0F3C20097F1B1 /* WDImageCropOverlayView.swift in Sources */,
+				529FAF2E1FB1FD480097F1B1 /* UIImage+Ext.swift in Sources */,
 				52B4AC7C1FA9AFC70028DC7D /* CardCell.swift in Sources */,
 				529FAF281FB107200097F1B1 /* UIImageViewX.swift in Sources */,
+				5245CD241FB4FC4B00EDE1D2 /* UITextFieldX.swift in Sources */,
+				52E266B31FB20A970025CD61 /* ScanViewController.swift in Sources */,
 				52899B681FAA684300949684 /* CardsTableViewController.swift in Sources */,
 				529FAF211FB0F3C20097F1B1 /* WDCropBorderView.swift in Sources */,
 				52BC558E1FA68E02003A46D5 /* AppDelegate.swift in Sources */,
@@ -389,6 +409,7 @@
 		52BC55A01FA68E02003A46D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 947J5M2JCF;
@@ -404,6 +425,7 @@
 		52BC55A11FA68E02003A46D5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 947J5M2JCF;

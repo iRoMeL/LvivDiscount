@@ -29,7 +29,7 @@ internal class WDImageCropViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.automaticallyAdjustsScrollViewInsets = false
+        //self.automaticallyAdjustsScrollViewInsets = false
 
         self.title = "Choose Photo"
 
@@ -64,7 +64,7 @@ internal class WDImageCropViewController: UIViewController {
     fileprivate func setupNavigationBar() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                                 target: self, action: #selector(actionCancel))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Use", style: .plain,
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Crop", style: .plain,
             target: self, action: #selector(actionUse))
     }
 
@@ -92,7 +92,7 @@ internal class WDImageCropViewController: UIViewController {
         self.useButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         self.useButton.titleLabel?.shadowOffset = CGSize(width: 0, height: -1)
         self.useButton.frame = CGRect(x: 0, y: 0, width: 58, height: 30)
-        self.useButton.setTitle("Use", for: UIControlState())
+        self.useButton.setTitle("Crop", for: UIControlState())
         self.useButton.setTitleShadowColor(
             UIColor(red: 0.118, green: 0.247, blue: 0.455, alpha: 1), for: UIControlState())
         self.useButton.addTarget(self, action: #selector(actionUse), for: .touchUpInside)

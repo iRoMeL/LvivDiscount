@@ -35,7 +35,7 @@ class DetailCardViewController: UIViewController, CardPageViewControllerDelegate
 		if let pageViewController = destination as? CardPVC {
 			cardPVC = pageViewController
 			cardPVC?.cardDelegate = self
-			cardPVC?.pageImages = [card.frontimage!, card.backtimage!,card.frontimage!]
+			cardPVC?.pageImages = [card.frontimage!, card.backtimage!,card.backtimage!]
 		}
 	}
 	

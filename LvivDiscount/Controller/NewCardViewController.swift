@@ -15,6 +15,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	@IBOutlet weak var descriptionTextView: UITextView!
 	@IBOutlet weak var frontImageView: UIImageView!
 	@IBOutlet weak var backImageView: UIImageView!
+	var card: CardMO?
 	
 	fileprivate var imagePicker: WDImagePicker!
 	fileprivate var imagePickerController: UIImagePickerController!
@@ -27,6 +28,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
 		
+		updateFields() 
 		
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapfrontImageView(sender:)))
 		frontImageView.addGestureRecognizer(tapGesture)
@@ -51,6 +53,43 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		chooseImage()
 	}
 	
+	func updateFields() {
+		
+		if let editedCard  = card {
+			
+
+				nameTextField.text = editedCard.name ?? ""
+				//descriptionTextView.text
+				//frontImageView.image
+				//backImageView.image
+			
+			
+		}
+		
+		
+		let frontImageLabel =  UILabel()
+		
+		frontImageLabel.textColor = UIColor.black
+		frontImageLabel.frame = frontImageView.bounds
+		frontImageLabel.backgroundColor = UIColor.clear
+		frontImageLabel.textColor = Theme.Colors.TintColor.color
+		frontImageLabel.textAlignment = .center
+		frontImageLabel.text = "ADD FRONTSIDE"
+		frontImageView.addSubview(frontImageLabel)
+		
+		let backImageLabel =  UILabel()
+		
+		backImageLabel.textColor = UIColor.black
+		backImageLabel.frame = backImageView.bounds
+		backImageLabel.backgroundColor = UIColor.clear
+		backImageLabel.textColor = Theme.Colors.TintColor.color
+		backImageLabel.textAlignment = .center
+		backImageLabel.text = "ADD BACKSIDE"
+		backImageView.addSubview(backImageLabel)
+
+		
+		
+	}
 	
 	
 	
@@ -98,7 +137,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	
 	@IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
 		
-		if nameTextField.text == "" ||  descriptionTextView.text == "" {
+		if nameTextField.text == "" ||  descriptionTextView.text == "" || (frontImageView.image == nil && backImageView.image == nil ) {
 			
 			let alertController = UIAlertController(title: NSLocalizedString("Oops", comment: "Oops"), message: NSLocalizedString("We can't proceed because one of the fields is blank. Please note that all fields are required.", comment: "Input error message"), preferredStyle: .alert)
 			
@@ -122,11 +161,10 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 			if let cardImage = frontImageView.image {
 				
 				
-				let frontImage = nameTextField.text! + "_front.jpeg"
+				let frontSide = nameTextField.text! + "_front.jpeg"
 				
-				newCard.frontimage	= frontImage
-				saveImageDocumentDirectory(image: cardImage, imageName: frontImage)
-				
+				newCard.frontimage	= frontSide
+				FileManagerHelper.instance.saveImageToDisk(image: cardImage, withName: frontSide)
 				
 				print("Saving data to context ...")
 				appDelegate.saveContext()
@@ -138,8 +176,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 				let backside = nameTextField.text! + "_back.jpeg"
 				
 				newCard.backtimage	= backside
-				saveImageDocumentDirectory(image: cardImage, imageName: backside)
-				
+				FileManagerHelper.instance.saveImageToDisk(image: cardImage, withName: backside)
 				
 				print("Saving data to context ...")
 				appDelegate.saveContext()
@@ -157,14 +194,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		}
 	}
 	
-	func saveImageDocumentDirectory(image : UIImage, imageName: String){
-		let fileManager = FileManager.default
-		let paths = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(imageName)
-		//let image = UIImage(named: imageName)
-		print(paths)
-		let imageData = UIImageJPEGRepresentation(image, 0.5)
-		fileManager.createFile(atPath: paths as String, contents: imageData, attributes: nil)
-	}
+
 	
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 		if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -173,12 +203,13 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 				frontImageView.image = selectedImage
 				frontImageView.contentMode = .scaleAspectFill
 				frontImageView.clipsToBounds = true
+				frontImageView.subviews.forEach{ $0.removeFromSuperview() }
 				
 			} else {
 				backImageView.image = selectedImage
 				backImageView.contentMode = .scaleAspectFill
 				backImageView.clipsToBounds = true
-				
+				backImageView.subviews.forEach{ $0.removeFromSuperview() }
 			}
 		}
 		
@@ -192,8 +223,10 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		if choosingFront {
 			
 			self.frontImageView.image = pickedImage
+			self.frontImageView.subviews.forEach{ $0.removeFromSuperview() }
 		}else{
 			self.backImageView.image = pickedImage
+			self.backImageView.subviews.forEach{ $0.removeFromSuperview() }
 		}
 		self.hideImagePicker()
 	}

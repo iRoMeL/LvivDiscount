@@ -23,25 +23,23 @@ class CardCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+		
     }
 	
 	
-	func configureCell(withcard card:CardMO)  {
+	func configureCell(with card: CardMO)  {
 		
 		
-		let fileManager = FileManager.default
+		 //DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
+			
+		if let imageCell = FileManagerHelper.instance.getImageFromDisk(withName: card.frontimage!) {
+				self.imagecell.image = resizeImage(image: imageCell, newWidth: CGFloat(320))
+			}
+		//}
 		
-		let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-
-		let imagePAth = (paths as NSString).appendingPathComponent(card.frontimage!)
-		if fileManager.fileExists(atPath: imagePAth){
-			self.imagecell.image = UIImage(contentsOfFile: imagePAth)
-		}else{
-			print("No Image")
-		}
 		
 		self.name.text			= card.name ?? ""
+		//self.summary.numberOfLines = 0
 		self.summary.text		= card.summary ?? ""
 		
 		

@@ -27,21 +27,13 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		tableView.cellLayoutMarginsFollowReadableWidth = true
 		//navigationController?.navigationBar.prefersLargeTitles = true
-		
-		//tableView.tableFooterView = UIView()
-		
-		
-		
+
+		//Theme
 		tableView.separatorColor = Theme.Colors.LightTextColor.color
 		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
-		//tableView.tableFooterView = UIView()
 
-		
-		// Uncomment the following line to preserve selection between presentations
-		// self.clearsSelectionOnViewWillAppear = false
-		
-		// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-		// self.navigationItem.rightBarButtonItem = self.editButtonItem
+		//tableView.estimatedRowHeight = 120
+		//tableView.rowHeight = UITableViewAutomaticDimension
 		
 		//кнопка  Sort
 		self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(showSortActionSheet))
@@ -110,6 +102,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	}
 	
 	
+	
+	
 	// MARK: - Table view data source
 	
 	override func numberOfSections(in tableView: UITableView) -> Int {
@@ -131,7 +125,9 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			
 			let card = (searchController.isActive) ? searchResults[indexPath.row] : cards[indexPath.row]
 			
-			cell.configureCell(withcard:card)
+			//cell.summary.numberOfLines = 0
+			cell.configureCell(with:card)
+			
 			
 			return cell
 		}
@@ -195,6 +191,15 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 				let restaurantToDelete = self.fetchResultController.object(at: indexPath)
 				context.delete(restaurantToDelete)
 				
+				if restaurantToDelete.frontimage != nil {
+					FileManagerHelper.instance.deleteImageFromDisk(withName: restaurantToDelete.frontimage!)
+				}
+				
+				if restaurantToDelete.backtimage != nil {
+					FileManagerHelper.instance.deleteImageFromDisk(withName: restaurantToDelete.backtimage!)
+				}
+				
+				
 				appDelegate.saveContext()
 			}
 			
@@ -205,16 +210,16 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		//SHARE BUTTON
 		let shareAction = UIContextualAction(style: .normal, title: "") { (action, sourceView, completionHandler) in
 			
-			let defaultText = "Check this out " + self.cards[indexPath.row].name!
+			let defaultText = "Check this out :" + self.cards[indexPath.row].name!
 			
 			let activityController: UIActivityViewController
 			
-			//if let cardImage = self.cards[indexPath.row].image,
-			//	let imageToShare = UIImage(data: cardImage as Data) {
-			//	activityController = UIActivityViewController(activityItems: [defaultText, imageToShare], applicationActivities: nil)
-			//} else  {
-			activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
-			//}
+			if let cardImage = self.cards[indexPath.row].frontimage,
+				let imageToShare = FileManagerHelper.instance.getImageFromDisk(withName: cardImage) {
+				activityController = UIActivityViewController(activityItems: [defaultText, imageToShare], applicationActivities: nil)
+			} else  {
+				activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
+			}
 			
 			if let popoverController = activityController.popoverPresentationController {
 				if let cell = tableView.cellForRow(at: indexPath) {
@@ -228,7 +233,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 		
 		//EDIT BUTTON
-		let editAction = UIContextualAction(style: .destructive, title: "") { (action, sourceView, completionHandler) in
+		let editAction = UIContextualAction(style: .normal, title: "") { (action, sourceView, completionHandler) in
 			
 			
 			//if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
@@ -241,7 +246,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 
 			
 			//if var card = self.cards[indexPath.row]  {
-				self.performSegue(withIdentifier: "EditCard", sender: self.cards[indexPath.row])
+			//	self.performSegue(withIdentifier: "EditCard", sender: self.cards[indexPath.row])
 			//}
 			
 			
@@ -295,23 +300,25 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 	}
 	
-	/*
+	
 	// MARK: - Navigation
-	
-	// In a storyboard-based application, you will often want to do a little preparation before navigation
+
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-	// Get the new view controller using segue.destinationViewController.
-	// Pass the selected object to the new view controller.
-	}
-	*/
-	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == "DetailCardViewController" {
+		if segue.identifier == "DetailCardViewController"  {
 			if let indexPath = tableView.indexPathForSelectedRow {
 				let destinationController = segue.destination as! DetailCardViewController
 				destinationController.card = (searchController.isActive) ? searchResults[indexPath.row] : cards[indexPath.row]
 			}
 		}
+		if segue.identifier ==  "EditCard" {
+			
+			if let destination = segue.destination as? NewCardViewController {
+				if let editedCard = sender as? CardMO {
+					destination.card = editedCard
+				}
+			}
+		}
+		
 	}
 
 	
@@ -356,8 +363,23 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		searchController.searchBar.becomeFirstResponder()
 	}
 	
-	var isFilterActive: Bool {
-		return (searchController.searchBar.text != "")
+	
+}
+
+extension CardsTableViewController:UITableViewDataSourcePrefetching {
+	
+	func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+		
+		//DispatchQueue.global(qos:DispatchQoS.QoSClass.default).async {
+			
+			//for i in indexPaths {
+				
+			//	let cachedImage = self.ch
+				
+			//}
+			
+		//}
+		
 	}
 	
 }

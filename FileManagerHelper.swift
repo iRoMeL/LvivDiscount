@@ -11,23 +11,43 @@ import UIKit
 
 class FileManagerHelper {
 	
+	static let instance 	= FileManagerHelper()
 	private let fileManager = FileManager.default
 	private let paths 		= NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-	
+
 	
 	func getImageFromDisk(withName name : String) -> UIImage? {
 		
-		let imagePAth = (paths as NSString).appendingPathComponent(name)
-		if fileManager.fileExists(atPath: imagePAth){
-			return UIImage(contentsOfFile: imagePAth)
+		let imagePath = (paths as NSString).appendingPathComponent(name)
+		if fileManager.fileExists(atPath: imagePath){
+			return UIImage(contentsOfFile: imagePath)
 		} else {
 			return nil
 		}
 		
 	}
 	
-	func saveImageToDisk() -> Bool {
-		return true
+	
+	func saveImageToDisk(image : UIImage, withName name : String){
+		let imagePath = (paths as NSString).appendingPathComponent(name)
+		let imageData = UIImageJPEGRepresentation(image, 0.5)
+		fileManager.createFile(atPath: imagePath, contents: imageData, attributes: nil)
+	}
+
+	
+	func deleteImageFromDisk(withName name : String) {
+		
+		let imagePath = (paths as NSString).appendingPathComponent(name)
+		if fileManager.fileExists(atPath: imagePath){
+			do {
+				try fileManager.removeItem(atPath: imagePath)
+				print("Deleting file \(imagePath)")
+			}
+			catch let error as NSError {
+				print("Ooops! Something went wrong: \(error)")
+			}
+			
+		}
 	}
 	
 
