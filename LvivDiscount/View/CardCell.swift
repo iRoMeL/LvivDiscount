@@ -29,13 +29,21 @@ class CardCell: UITableViewCell {
 	
 	func configureCell(with card: CardMO)  {
 		
-
-		//DispatchQueue.global().async {
+		
+		if card.frontimage != nil {
+			//DispatchQueue.global().async {
 			if let imageCell = FileManagerHelper.instance.getImageFromDisk(withName: card.frontimage!) {
 				self.imagecell.image = resizeImage(image: imageCell, newWidth: CGFloat(320))
 			}
-
-		//}
+			
+			//}
+		} else { if card.backtimage != nil {
+			if let imageCell = FileManagerHelper.instance.getImageFromDisk(withName: card.backtimage!) {
+				self.imagecell.image = resizeImage(image: imageCell, newWidth: CGFloat(320))
+			}}
+		}
+		
+		
 		
 		
 		

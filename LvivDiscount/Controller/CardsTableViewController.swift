@@ -91,16 +91,12 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		searchController.searchResultsUpdater = self
 		searchController.dimsBackgroundDuringPresentation = false
 		searchController.searchBar.placeholder = NSLocalizedString("Search cards...", comment: "Search cards...")
-		//searchController.searchBar.barTintColor = .white
-		//searchController.searchBar.backgroundImage = UIImage()
-		
 		searchController.searchBar.barTintColor				= Theme.Colors.BackgroundColor.color
 		searchController.searchBar.tintColor				= Theme.Colors.TintColor.color
 		searchController.searchBar.enablesReturnKeyAutomatically = true
 		searchController.searchBar.keyboardAppearance		= .dark
-
-		searchController.searchBar.setTextColor(color: Theme.Colors.TintColor.color)
-		
+		searchController.searchBar.sizeToFit()
+				
 		if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
 			textFieldInsideSearchBar.textColor = Theme.Colors.TintColor.color
 			textFieldInsideSearchBar.borderStyle = .roundedRect
@@ -156,11 +152,15 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if searchController.isActive {
+		if isFilterActive{
 			return searchResults.count
 		} else {
 			return cards.count
 		}
+	}
+	
+	var isFilterActive: Bool {
+		return (searchController.isActive && searchController.searchBar.text != "")
 	}
 	
 	
@@ -168,7 +168,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		if let cell = tableView.dequeueReusableCell(withIdentifier: "CardCell", for: indexPath) as? CardCell {
 			
-			let card = (searchController.isActive) ? searchResults[indexPath.row] : cards[indexPath.row]
+			let card = (isFilterActive) ? searchResults[indexPath.row] : cards[indexPath.row]
 			
 			//cell.summary.numberOfLines = 0
 			cell.configureCell(with:card)
@@ -318,7 +318,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	
 	
 	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-		if searchController.isActive {
+		if isFilterActive {
 			return false
 		} else {
 			return true
@@ -352,7 +352,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		if segue.identifier == "DetailCardViewController"  {
 			if let indexPath = tableView.indexPathForSelectedRow {
 				let destinationController = segue.destination as! DetailCardViewController
-				destinationController.card = (searchController.isActive) ? searchResults[indexPath.row] : cards[indexPath.row]
+				destinationController.card = (isFilterActive) ? searchResults[indexPath.row] : cards[indexPath.row]
 			}
 		}
 		if segue.identifier ==  "EditCard" {
@@ -423,6 +423,9 @@ extension CardsTableViewController: MenuViewDelegate {
 		let fetchRequest: NSFetchRequest<CardMO> = CardMO.fetchRequest()
 		let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
 		fetchRequest.sortDescriptors = [sortDescriptor]
+		//fetchRequest.predicate = NSPredicate(format: "tag == %@", Int64(index))
+		
+		
 		
 		if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
 			let context = appDelegate.persistentContainer.viewContext
@@ -438,7 +441,7 @@ extension CardsTableViewController: MenuViewDelegate {
 						} else{
 							return card.tag == Int64(index)
 						}
-						
+
 					})
 				}
 			} catch {

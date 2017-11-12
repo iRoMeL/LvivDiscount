@@ -23,6 +23,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	@IBOutlet weak var barcodeImageView: UIImageView!
 	private let gen = RSUnifiedCodeGenerator.shared
 	private let limitLength = 13
+	private let limitSummaryLength = 70
 	private var barcodeType = AVMetadataObject.ObjectType.ean13.rawValue
 	@IBOutlet weak var barcodeTextField: RoundedTextField!
 	
@@ -265,6 +266,12 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		return newLength <= limitLength
 	}
 	
+	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+		guard let textsummary = textView.text else { return true }
+		let newLength = textsummary.characters.count + text.characters.count - range.length
+		return newLength <= limitSummaryLength
+	}
+	
 	
 	func chooseImage() {
 		
@@ -310,7 +317,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	
 	@IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
 		
-		if nameTextField.text == "" ||  descriptionTextView.text == "" || barcodeTextField.text == "" || (frontImageView.image == nil && backImageView.image == nil  && barcodeImageView.image == nil ) {
+		if nameTextField.text == "" ||  descriptionTextView.text == "" || barcodeTextField.text == "" || (frontImageView.image == nil && backImageView.image == nil)  || barcodeImageView.image == nil  {
 			
 			let alertController = UIAlertController(title: NSLocalizedString("Oops", comment: "Oops"), message: NSLocalizedString("We can't proceed because all least one of the required field is blank", comment: "Input error message"), preferredStyle: .alert)
 			

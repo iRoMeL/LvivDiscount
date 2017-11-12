@@ -34,6 +34,7 @@
 		52BC559B1FA68E02003A46D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55991FA68E02003A46D5 /* LaunchScreen.storyboard */; };
 		52F8B07A1FB7BA6C005BD7AE /* BarcodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */; };
 		52FBBC541FB8B44A0048C355 /* SetBarcodeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FBBC531FB8B44A0048C355 /* SetBarcodeDelegate.swift */; };
+		52FBBC561FB8F7C30048C355 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FBBC551FB8F7C20048C355 /* SettingsVC.swift */; };
 		8EFE9A7C3367085D99461F59 /* Pods_LvivDiscount.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D34AC5025668D348D7EB238 /* Pods_LvivDiscount.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		52BC559C1FA68E02003A46D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarcodeReaderViewController.swift; sourceTree = "<group>"; };
 		52FBBC531FB8B44A0048C355 /* SetBarcodeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBarcodeDelegate.swift; sourceTree = "<group>"; };
+		52FBBC551FB8F7C20048C355 /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		8D34AC5025668D348D7EB238 /* Pods_LvivDiscount.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LvivDiscount.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -178,6 +180,7 @@
 				52899B6F1FAA71A800949684 /* NewCardViewController.swift */,
 				529FAF031FAF76820097F1B1 /* CardPVC.swift */,
 				529FAF011FAF71A10097F1B1 /* DetailCardViewController.swift */,
+				52FBBC551FB8F7C20048C355 /* SettingsVC.swift */,
 				529FAF051FAF79C30097F1B1 /* CardContentViewController.swift */,
 				52899B671FAA684300949684 /* CardsTableViewController.swift */,
 			);
@@ -342,6 +345,7 @@
 				529FAF241FB0F3C20097F1B1 /* WDImageCropOverlayView.swift in Sources */,
 				529FAF2E1FB1FD480097F1B1 /* UIImage+Ext.swift in Sources */,
 				52B4AC7C1FA9AFC70028DC7D /* CardCell.swift in Sources */,
+				52FBBC561FB8F7C30048C355 /* SettingsVC.swift in Sources */,
 				5245CD261FB5B5D900EDE1D2 /* ManagerCard.swift in Sources */,
 				529FAF281FB107200097F1B1 /* UIImageViewX.swift in Sources */,
 				5245CD241FB4FC4B00EDE1D2 /* UITextFieldX.swift in Sources */,
