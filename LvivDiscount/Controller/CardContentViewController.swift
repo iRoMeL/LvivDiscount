@@ -24,13 +24,12 @@ class CardContentViewController: UIViewController {
 
 		if let imageToRotate = FileManagerHelper.instance.getImageFromDisk(withName: imageFile) {
 			
-			//contentImageView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2));
-			//let abc = imageToRotate.rotate(degrees: 90)
-			contentImageView.image = imageToRotate
 			
+			//print(imageToRotate.imageOrientation.rawValue)
 			
-			contentImageView.image = imageToRotate.rotate(degrees: 90)
-			print(imageToRotate.imageOrientation.rawValue)
+			let aaa = fixOrientation(img: imageToRotate).rotate(degrees: 90)
+			contentImageView.image = aaa
+			//print(aaa?.imageOrientation.rawValue)
 			//contentImageView.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(M_PI)) / 180.0)
 		}
 		
@@ -38,6 +37,22 @@ class CardContentViewController: UIViewController {
 	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
+		
+	}
+	
+	func fixOrientation(img:UIImage) -> UIImage {
+		
+		if (img.imageOrientation == UIImageOrientation.up) {
+			return img;
+		}
+		
+		UIGraphicsBeginImageContextWithOptions(img.size, false, img.scale);
+		let rect = CGRect(x: 0, y: 0, width: img.size.width, height: img.size.height)
+		img.draw(in: rect)
+		
+		let normalizedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+		UIGraphicsEndImageContext();
+		return normalizedImage;
 		
 	}
 	

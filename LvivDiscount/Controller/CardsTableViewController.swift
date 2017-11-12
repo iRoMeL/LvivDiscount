@@ -12,7 +12,7 @@ import Persei
 
 class CardsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
 	
-	
+	fileprivate var menu: MenuView!
 	private var cards:[CardMO] = []
 	private var searchResults: [CardMO] = []
 	
@@ -23,17 +23,49 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		dismiss(animated: true, completion: nil)
 	}
 	
+	fileprivate func loadMenu() {
+		menu = {
+			let menu = MenuView()
+			menu.delegate = self
+			menu.items = items
+			return menu
+		}()
+		
+		tableView.addSubview(menu)
+	}
+	
+	// MARK: - Items
+	fileprivate let items = (0..<7).map {
+		MenuItem(image: UIImage(named: "menu_icon_\($0)")!)
+	}
+	
+	// MARK: - Model
+	fileprivate var model:String = ""{//
+		didSet {
+			//title = model.description
+			
+			if isViewLoaded {
+//				let center: CGPoint = {
+//					let itemFrame = menu.frameOfItem(at: menu.selectedIndex!)
+//					let itemCenter = CGPoint(x: itemFrame.midX, y: itemFrame.midY)
+//					var convertedCenter = imageView.convert(itemCenter, from: menu)
+//					convertedCenter.y = 0
+//
+//					return convertedCenter
+//				}()
+//
+//				let transition = CircularRevealTransition(layer: imageView.layer, center: center)
+//				transition.start()
+				
+				//imageView.image = model.image
+			}
+		}
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		let menu = MenuView()
-		
-		//let items = feedModes.map { mode: SomeYourCustomFeedMode -> MenuItem in
-		//	return MenuItem(image: mode.image)
-		//}
-		
-		//menu.items = items
-		tableView.addSubview(menu)
+	    loadMenu()
 		
 		tableView.cellLayoutMarginsFollowReadableWidth = true
 		//navigationController?.navigationBar.prefersLargeTitles = true
@@ -42,8 +74,9 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		tableView.separatorColor = Theme.Colors.LightTextColor.color
 		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
 
-		//tableView.estimatedRowHeight = 120
-		//tableView.rowHeight = UITableViewAutomaticDimension
+		tableView.estimatedRowHeight = 120
+		tableView.rowHeight = UITableViewAutomaticDimension
+		
 		
 		//кнопка  Sort
 		self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(showSortActionSheet))
@@ -66,6 +99,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		searchController.searchBar.enablesReturnKeyAutomatically = true
 		searchController.searchBar.keyboardAppearance		= .dark
 
+		searchController.searchBar.setTextColor(color: Theme.Colors.TintColor.color)
+		
 		if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
 			textFieldInsideSearchBar.textColor = Theme.Colors.TintColor.color
 			textFieldInsideSearchBar.borderStyle = .roundedRect
@@ -151,14 +186,14 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		let alertController = UIAlertController(title: "Sorting ", message: nil, preferredStyle: .actionSheet)
 		
-		let AZAction = UIAlertAction(title: "A-Z", style: .default) { _ in
+		let AZAction = UIAlertAction(title: "TITLE: A-Z", style: .default) { _ in
 			
 			self.cards.sort() {$0.name! < $1.name!}
 			self.tableView.reloadData()
 			
 		}
 		
-		let ZAAction = UIAlertAction(title: "Z-A", style: .default) { _ in
+		let ZAAction = UIAlertAction(title: "TITLE: Z-A", style: .default) { _ in
 			
 			self.cards.sort(){$0.name! > $1.name!}
 			self.tableView.reloadData()
@@ -378,25 +413,43 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	
 }
 
-extension CardsTableViewController:UITableViewDataSourcePrefetching {
+
+extension CardsTableViewController: MenuViewDelegate {
 	
-	func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+	func menu(_ menu: MenuView, didSelectItemAt index: Int) {
+		//model = model.next()
 		
-		//DispatchQueue.global(qos:DispatchQoS.QoSClass.default).async {
+		// Fetch data from data store
+		let fetchRequest: NSFetchRequest<CardMO> = CardMO.fetchRequest()
+		let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+		fetchRequest.sortDescriptors = [sortDescriptor]
+		
+		if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+			let context = appDelegate.persistentContainer.viewContext
+			fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+			fetchResultController.delegate = self
 			
-			//for i in indexPaths {
-				
-			//	let cachedImage = self.ch
-				
-			//}
-			
-		//}
+			do {
+				try fetchResultController.performFetch()
+				if let fetchedObjects = fetchResultController.fetchedObjects {
+					cards = fetchedObjects.filter({ (card) -> Bool in
+						if index == 0 {
+							return true
+						} else{
+							return card.tag == Int64(index)
+						}
+						
+					})
+				}
+			} catch {
+				print(error)
+			}
+		}
+
+		tableView.reloadData()
 		
 	}
-	
 }
-
-
 
 public extension UISearchBar {
 	
@@ -406,3 +459,5 @@ public extension UISearchBar {
 		tf.textColor = color
 	}
 }
+
+

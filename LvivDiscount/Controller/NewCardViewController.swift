@@ -11,7 +11,10 @@ import CoreData
 import RSBarcodes_Swift
 import AVFoundation
 
-class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, WDImagePickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate {
+class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, WDImagePickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,SetBarcodeDelegate{
+	
+
+	
 	
 	@IBOutlet weak var nameTextField: RoundedTextField!
 	@IBOutlet weak var descriptionTextView: UITextView!
@@ -20,7 +23,10 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	@IBOutlet weak var barcodeImageView: UIImageView!
 	private let gen = RSUnifiedCodeGenerator.shared
 	private let limitLength = 13
+	private var barcodeType = AVMetadataObject.ObjectType.ean13.rawValue
 	@IBOutlet weak var barcodeTextField: RoundedTextField!
+	
+	@IBOutlet weak var segmentedControl: UISegmentedControl!
 	
 	@IBAction func barcodeEntered(_ sender: RoundedTextField) {
 		
@@ -34,6 +40,23 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		case 13: return AVMetadataObject.ObjectType.ean13.rawValue
 		default: return AVMetadataObject.ObjectType.code39.rawValue
 		}
+		
+	}
+	
+	func setBarcode(withNumber number: String, andType type: String) {
+	
+		barcodeTextField.text = number
+		barcodeType 		  = type
+		barcodeImageView.subviews.forEach{ $0.removeFromSuperview()}
+		
+		if let barcodegen  = self.gen.generateCode(number, machineReadableCodeObjectType: type) {
+			//print(self.barcodeType)
+			
+			barcodeImageView.layer.borderWidth = 1
+			barcodeImageView.image = RSAbstractCodeGenerator.resizeImage(barcodegen, targetSize: barcodeImageView.bounds.size, contentMode: UIViewContentMode.center)
+		}
+
+		
 		
 	}
 	
@@ -61,7 +84,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 			}
 			
 		} else {
-			addLabel(onImageView: barcodeImageView, withText: "ADD BARCODE")
+			addLabel(onImageView: barcodeImageView, withText: "SCAN BARCODE")
 		}
 		
 	}
@@ -86,15 +109,47 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		}
 	}
 	
+	func textViewDidChange(_ textView: UITextView) {
+		//tableView.beginUpdates()
+		//tableView.endUpdates()
+		//tableView.sizeToFit()
+		//textView.sizeToFit()
+		//textView.sizeToFit()
+		
+//		let newSize = textView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+//		textView.frame = CGRect(origin: textView.frame.origin, size: newSize)
+//
+		if textView == descriptionTextView {
+			
+			let currentHeight = textView.frame.size.height
+			
+			textView.frame.size.height = 0 // you have to do that because if not it's not working with the proper content size
+			
+			textView.frame.size = textView.contentSize // here you detext your textView's content size and make it resize.
+			
+			let newHeight = textView.frame.size.height
+			
+			let heightDifference = newHeight - currentHeight // get the height difference from before and after editing
+			
+			descriptionTextView.frame.size.height += heightDifference
+			
+		}
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
+		tableView.estimatedRowHeight = 150
+		tableView.rowHeight = UITableViewAutomaticDimension
+
+		
 		
 		updateFields()
 		
 		barcodeTextField.delegate = self
+		descriptionTextView.delegate = self
 		
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapfrontImageView(sender:)))
 		frontImageView.addGestureRecognizer(tapGesture)
@@ -144,6 +199,8 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 			nameTextField.text = editedCard.name ?? ""
 			descriptionTextView.text = editedCard.summary ?? ""
 			barcodeTextField.text = editedCard.barcode ?? ""
+			segmentedControl.selectedSegmentIndex = Int(editedCard.tag)
+			
 			
 			if let imageFile = editedCard.frontimage {
 				
@@ -182,7 +239,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 			
 			addLabel(onImageView: frontImageView, withText: "ADD FRONTSIDE")
 			addLabel(onImageView: backImageView, withText: "ADD BACKSIDE")
-			addLabel(onImageView: barcodeImageView, withText: "ADD BARCODE")
+			addLabel(onImageView: barcodeImageView, withText: "SCAN BARCODE")
 			
 		}
 		
@@ -267,35 +324,51 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		
 		print("Name: \(nameTextField.text ?? "")")
 		print("Description: \(descriptionTextView.text ?? "")")
+
+		
 		
 		// Saving the card to database
 		if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+			
+			
+				
 			
 			let newCard = card ?? CardMO(context: appDelegate.persistentContainer.viewContext)
 			
 			newCard.name = nameTextField.text
 			newCard.summary = descriptionTextView.text
 			newCard.barcode = barcodeTextField.text
-			newCard.tag = 0
+			newCard.tag = Int64(segmentedControl.selectedSegmentIndex)
+			if card == nil {
+				newCard.uid = UUID().uuidString
+			}
+				
+			
 			
 			if let cardImage = frontImageView.image {
-				let frontSide = nameTextField.text! + "_front.jpeg"
+				let frontSide = newCard.uid! + "_front.jpeg"
 				newCard.frontimage	= frontSide
 				FileManagerHelper.instance.saveImageToDisk(image: cardImage, withName: frontSide)
 			}
 			
 			if let backImage = backImageView.image {
-				let backside = nameTextField.text! + "_back.jpeg"
+				let backside = newCard.uid! + "_back.jpeg"
 				newCard.backtimage	= backside
 				FileManagerHelper.instance.saveImageToDisk(image: backImage, withName: backside)
 			}
 			
 			
 			if let barcodeImage = barcodeImageView.image {
-				let barcodeSide = nameTextField.text! + "_barcode.jpeg"
+				let barcodeSide = newCard.uid! + "_barcode.jpeg"
 				newCard.barcodeimage	= barcodeSide
 				FileManagerHelper.instance.saveImageToDisk(image: barcodeImage, withName: barcodeSide)
 			}
+			
+			print("frontimage: \(newCard.frontimage ?? "")")
+			print("backtimage: \(newCard.backtimage ?? "")")
+			print("barcodeimage: \(newCard.barcodeimage ?? "")")
+			print("uid: \(newCard.uid ?? "")")
+
 			
 			appDelegate.saveContext()
 		}

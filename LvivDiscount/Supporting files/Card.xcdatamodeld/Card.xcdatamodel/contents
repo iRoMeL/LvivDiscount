@@ -8,8 +8,9 @@
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="summary" attributeType="String" maxValueString="140" syncable="YES"/>
         <attribute name="tag" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="uid" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Card" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="Card" positionX="-63" positionY="-18" width="128" height="165"/>
     </elements>
 </model>

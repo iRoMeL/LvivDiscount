@@ -46,6 +46,7 @@ class DetailCardViewController: UIViewController, CardPageViewControllerDelegate
 			
 			
 			cardPVC?.pageImages = pageimages
+			pageControl.numberOfPages = pageimages.count
 		}
 	}
 	

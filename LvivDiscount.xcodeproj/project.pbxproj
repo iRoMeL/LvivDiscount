@@ -32,8 +32,8 @@
 		52BC55931FA68E02003A46D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55911FA68E02003A46D5 /* Main.storyboard */; };
 		52BC55981FA68E02003A46D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55971FA68E02003A46D5 /* Assets.xcassets */; };
 		52BC559B1FA68E02003A46D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55991FA68E02003A46D5 /* LaunchScreen.storyboard */; };
-		52E266B31FB20A970025CD61 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E266B21FB20A970025CD61 /* ScanViewController.swift */; };
 		52F8B07A1FB7BA6C005BD7AE /* BarcodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */; };
+		52FBBC541FB8B44A0048C355 /* SetBarcodeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FBBC531FB8B44A0048C355 /* SetBarcodeDelegate.swift */; };
 		8EFE9A7C3367085D99461F59 /* Pods_LvivDiscount.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D34AC5025668D348D7EB238 /* Pods_LvivDiscount.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,8 +67,8 @@
 		52BC55971FA68E02003A46D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52BC559A1FA68E02003A46D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52BC559C1FA68E02003A46D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		52E266B21FB20A970025CD61 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarcodeReaderViewController.swift; sourceTree = "<group>"; };
+		52FBBC531FB8B44A0048C355 /* SetBarcodeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetBarcodeDelegate.swift; sourceTree = "<group>"; };
 		8D34AC5025668D348D7EB238 /* Pods_LvivDiscount.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LvivDiscount.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -122,7 +122,7 @@
 				529FAF291FB129470097F1B1 /* AppAppearance.swift */,
 				529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */,
 				5245CD251FB5B5D900EDE1D2 /* ManagerCard.swift */,
-				52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */,
+				52FBBC531FB8B44A0048C355 /* SetBarcodeDelegate.swift */,
 				529FAF2F1FB1FD620097F1B1 /* Extensions */,
 				52BC558C1FA68E02003A46D5 /* LvivDiscount */,
 				52BC558B1FA68E02003A46D5 /* Products */,
@@ -174,8 +174,8 @@
 		52BC55A61FA68FB1003A46D5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */,
 				52899B6F1FAA71A800949684 /* NewCardViewController.swift */,
-				52E266B21FB20A970025CD61 /* ScanViewController.swift */,
 				529FAF031FAF76820097F1B1 /* CardPVC.swift */,
 				529FAF011FAF71A10097F1B1 /* DetailCardViewController.swift */,
 				529FAF051FAF79C30097F1B1 /* CardContentViewController.swift */,
@@ -334,6 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				529FAF251FB0F3C20097F1B1 /* WDResizableCropOverlayView.swift in Sources */,
+				52FBBC541FB8B44A0048C355 /* SetBarcodeDelegate.swift in Sources */,
 				529FAF061FAF79C30097F1B1 /* CardContentViewController.swift in Sources */,
 				52F8B07A1FB7BA6C005BD7AE /* BarcodeReaderViewController.swift in Sources */,
 				529FAF231FB0F3C20097F1B1 /* WDImagePicker.swift in Sources */,
@@ -344,7 +345,6 @@
 				5245CD261FB5B5D900EDE1D2 /* ManagerCard.swift in Sources */,
 				529FAF281FB107200097F1B1 /* UIImageViewX.swift in Sources */,
 				5245CD241FB4FC4B00EDE1D2 /* UITextFieldX.swift in Sources */,
-				52E266B31FB20A970025CD61 /* ScanViewController.swift in Sources */,
 				52899B681FAA684300949684 /* CardsTableViewController.swift in Sources */,
 				529FAF211FB0F3C20097F1B1 /* WDCropBorderView.swift in Sources */,
 				52BC558E1FA68E02003A46D5 /* AppDelegate.swift in Sources */,
