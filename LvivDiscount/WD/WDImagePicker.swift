@@ -31,7 +31,8 @@ import UIKit
         self.cropSize = CGSize(width: 320, height: 200)
         _imagePickerController = UIImagePickerController()
         _imagePickerController.delegate = self
-        _imagePickerController.sourceType = .camera
+        _imagePickerController.sourceType = .photoLibrary
+		//_imagePickerController.allowsEditing = true //test
 		
     }
 	

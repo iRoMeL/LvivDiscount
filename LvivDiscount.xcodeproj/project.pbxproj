@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5245CD241FB4FC4B00EDE1D2 /* UITextFieldX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5245CD231FB4FC4A00EDE1D2 /* UITextFieldX.swift */; };
+		5245CD261FB5B5D900EDE1D2 /* ManagerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5245CD251FB5B5D900EDE1D2 /* ManagerCard.swift */; };
 		5275849C1FAA7ECD001CB470 /* RoundedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5275849B1FAA7ECD001CB470 /* RoundedTextField.swift */; };
 		52899B681FAA684300949684 /* CardsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52899B671FAA684300949684 /* CardsTableViewController.swift */; };
 		52899B6C1FAA6BE500949684 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52899B6A1FAA6BE500949684 /* Card.xcdatamodeld */; };
@@ -32,10 +33,15 @@
 		52BC55981FA68E02003A46D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55971FA68E02003A46D5 /* Assets.xcassets */; };
 		52BC559B1FA68E02003A46D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55991FA68E02003A46D5 /* LaunchScreen.storyboard */; };
 		52E266B31FB20A970025CD61 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E266B21FB20A970025CD61 /* ScanViewController.swift */; };
+		52F8B07A1FB7BA6C005BD7AE /* BarcodeReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */; };
+		8EFE9A7C3367085D99461F59 /* Pods_LvivDiscount.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D34AC5025668D348D7EB238 /* Pods_LvivDiscount.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27E3B0A6A7FFA6B797FE9D8D /* Pods-LvivDiscount.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LvivDiscount.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LvivDiscount/Pods-LvivDiscount.debug.xcconfig"; sourceTree = "<group>"; };
+		2E5D489FF2CD2E6F645E8044 /* Pods-LvivDiscount.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LvivDiscount.release.xcconfig"; path = "Pods/Target Support Files/Pods-LvivDiscount/Pods-LvivDiscount.release.xcconfig"; sourceTree = "<group>"; };
 		5245CD231FB4FC4A00EDE1D2 /* UITextFieldX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldX.swift; sourceTree = "<group>"; };
+		5245CD251FB5B5D900EDE1D2 /* ManagerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerCard.swift; sourceTree = "<group>"; };
 		5275849B1FAA7ECD001CB470 /* RoundedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
 		52899B671FAA684300949684 /* CardsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsTableViewController.swift; sourceTree = "<group>"; };
 		52899B6B1FAA6BE500949684 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
@@ -62,6 +68,8 @@
 		52BC559A1FA68E02003A46D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52BC559C1FA68E02003A46D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52E266B21FB20A970025CD61 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarcodeReaderViewController.swift; sourceTree = "<group>"; };
+		8D34AC5025668D348D7EB238 /* Pods_LvivDiscount.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LvivDiscount.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EFE9A7C3367085D99461F59 /* Pods_LvivDiscount.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,9 +121,13 @@
 				52BC558D1FA68E02003A46D5 /* AppDelegate.swift */,
 				529FAF291FB129470097F1B1 /* AppAppearance.swift */,
 				529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */,
+				5245CD251FB5B5D900EDE1D2 /* ManagerCard.swift */,
+				52F8B0791FB7BA6C005BD7AE /* BarcodeReaderViewController.swift */,
 				529FAF2F1FB1FD620097F1B1 /* Extensions */,
 				52BC558C1FA68E02003A46D5 /* LvivDiscount */,
 				52BC558B1FA68E02003A46D5 /* Products */,
+				CF49E9DAC5820C1776FD2576 /* Pods */,
+				5CE1E1EE58B6158B2D0F2367 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -180,6 +193,23 @@
 			path = "Supporting files";
 			sourceTree = "<group>";
 		};
+		5CE1E1EE58B6158B2D0F2367 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8D34AC5025668D348D7EB238 /* Pods_LvivDiscount.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CF49E9DAC5820C1776FD2576 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				27E3B0A6A7FFA6B797FE9D8D /* Pods-LvivDiscount.debug.xcconfig */,
+				2E5D489FF2CD2E6F645E8044 /* Pods-LvivDiscount.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -187,9 +217,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52BC559F1FA68E02003A46D5 /* Build configuration list for PBXNativeTarget "LvivDiscount" */;
 			buildPhases = (
+				1451C9A82825B35FC26C6B61 /* [CP] Check Pods Manifest.lock */,
 				52BC55861FA68E02003A46D5 /* Sources */,
 				52BC55871FA68E02003A46D5 /* Frameworks */,
 				52BC55881FA68E02003A46D5 /* Resources */,
+				BA3079A4A608F2ED62A6565F /* [CP] Embed Pods Frameworks */,
+				F4D96F47CC4158B1ADF12757 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -247,6 +280,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1451C9A82825B35FC26C6B61 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BA3079A4A608F2ED62A6565F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LvivDiscount/Pods-LvivDiscount-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F4D96F47CC4158B1ADF12757 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LvivDiscount/Pods-LvivDiscount-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		52BC55861FA68E02003A46D5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -254,11 +335,13 @@
 			files = (
 				529FAF251FB0F3C20097F1B1 /* WDResizableCropOverlayView.swift in Sources */,
 				529FAF061FAF79C30097F1B1 /* CardContentViewController.swift in Sources */,
+				52F8B07A1FB7BA6C005BD7AE /* BarcodeReaderViewController.swift in Sources */,
 				529FAF231FB0F3C20097F1B1 /* WDImagePicker.swift in Sources */,
 				529FAF2A1FB129470097F1B1 /* AppAppearance.swift in Sources */,
 				529FAF241FB0F3C20097F1B1 /* WDImageCropOverlayView.swift in Sources */,
 				529FAF2E1FB1FD480097F1B1 /* UIImage+Ext.swift in Sources */,
 				52B4AC7C1FA9AFC70028DC7D /* CardCell.swift in Sources */,
+				5245CD261FB5B5D900EDE1D2 /* ManagerCard.swift in Sources */,
 				529FAF281FB107200097F1B1 /* UIImageViewX.swift in Sources */,
 				5245CD241FB4FC4B00EDE1D2 /* UITextFieldX.swift in Sources */,
 				52E266B31FB20A970025CD61 /* ScanViewController.swift in Sources */,
@@ -408,6 +491,7 @@
 		};
 		52BC55A01FA68E02003A46D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 27E3B0A6A7FFA6B797FE9D8D /* Pods-LvivDiscount.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -424,6 +508,7 @@
 		};
 		52BC55A11FA68E02003A46D5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E5D489FF2CD2E6F645E8044 /* Pods-LvivDiscount.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

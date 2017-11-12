@@ -75,7 +75,7 @@ override func didReceiveMemoryWarning() {
 }
 
 func contentViewController(at index: Int) -> CardContentViewController? {
-	if index < 0 || index >= 3 {
+	if index < 0 || index >= pageImages.count {
 		return nil
 	}
 	

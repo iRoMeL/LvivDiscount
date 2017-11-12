@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Persei
 
 class CardsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
 	
@@ -24,6 +25,15 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		let menu = MenuView()
+		
+		//let items = feedModes.map { mode: SomeYourCustomFeedMode -> MenuItem in
+		//	return MenuItem(image: mode.image)
+		//}
+		
+		//menu.items = items
+		tableView.addSubview(menu)
 		
 		tableView.cellLayoutMarginsFollowReadableWidth = true
 		//navigationController?.navigationBar.prefersLargeTitles = true
@@ -141,14 +151,14 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		let alertController = UIAlertController(title: "Sorting ", message: nil, preferredStyle: .actionSheet)
 		
-		let AZAction = UIAlertAction(title: "A-Z ⬇", style: .default) { _ in
+		let AZAction = UIAlertAction(title: "A-Z", style: .default) { _ in
 			
 			self.cards.sort() {$0.name! < $1.name!}
 			self.tableView.reloadData()
 			
 		}
 		
-		let ZAAction = UIAlertAction(title: "Z-A ⬆", style: .default) { _ in
+		let ZAAction = UIAlertAction(title: "Z-A", style: .default) { _ in
 			
 			self.cards.sort(){$0.name! > $1.name!}
 			self.tableView.reloadData()
@@ -236,17 +246,17 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		let editAction = UIContextualAction(style: .normal, title: "") { (action, sourceView, completionHandler) in
 			
 			
-			//if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-			//	let context = appDelegate.persistentContainer.viewContext
-			//	let restaurantToDelete = self.fetchResultController.object(at: indexPath)
-			//	context.delete(restaurantToDelete)
+			if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+				let context = appDelegate.persistentContainer.viewContext
+				let restaurant = self.fetchResultController.object(at: indexPath)
 				
-			//	appDelegate.saveContext()
-			//}
+					self.performSegue(withIdentifier: "EditCard", sender: restaurant)
+				
+			}
 
 			
 			//if var card = self.cards[indexPath.row]  {
-			//	self.performSegue(withIdentifier: "EditCard", sender: self.cards[indexPath.row])
+				//self.performSegue(withIdentifier: "EditCard", sender: self.cards[indexPath.row])
 			//}
 			
 			
@@ -287,9 +297,9 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			if let name = card.name {
 				let isMatch = name.localizedCaseInsensitiveContains(searchText)
 				return isMatch
-			}
+			} 
 			
-			return false
+			return true
 		})
 	}
 	
@@ -311,6 +321,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			}
 		}
 		if segue.identifier ==  "EditCard" {
+			
+			//print(tableView.indexPathForSelectedRow )
 			
 			if let destination = segue.destination as? NewCardViewController {
 				if let editedCard = sender as? CardMO {

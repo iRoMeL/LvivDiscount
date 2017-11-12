@@ -7,13 +7,19 @@
 //
 
 import UIKit
-//import RSBarcodes_Swift
-//import AVFoundation
+import RSBarcodes_Swift
+import AVFoundation
 
 class ScanViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		
+		
+		//let barcodeView = RSUnifiedCodeGenerator.shared.generateCode("12321327", machineReadableCodeObjectType: AVMetadataObject.ObjectType.ean13.rawValue)
+		
+		
 
         // Do any additional setup after loading the view.
     }

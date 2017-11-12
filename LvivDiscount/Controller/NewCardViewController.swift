@@ -8,13 +8,64 @@
 
 import UIKit
 import CoreData
+import RSBarcodes_Swift
+import AVFoundation
 
-class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, WDImagePickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, WDImagePickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate {
 	
 	@IBOutlet weak var nameTextField: RoundedTextField!
 	@IBOutlet weak var descriptionTextView: UITextView!
 	@IBOutlet weak var frontImageView: UIImageView!
 	@IBOutlet weak var backImageView: UIImageView!
+	@IBOutlet weak var barcodeImageView: UIImageView!
+	private let gen = RSUnifiedCodeGenerator.shared
+	private let limitLength = 13
+	@IBOutlet weak var barcodeTextField: RoundedTextField!
+	
+	@IBAction func barcodeEntered(_ sender: RoundedTextField) {
+		
+		generateBarcodeImage()
+	
+	}
+	
+	func getBarcodeType(nubmer : Int ) -> String {
+		switch nubmer {
+		case 8: return AVMetadataObject.ObjectType.ean8.rawValue
+		case 13: return AVMetadataObject.ObjectType.ean13.rawValue
+		default: return AVMetadataObject.ObjectType.code39.rawValue
+		}
+		
+	}
+	
+	func generateBarcodeImage()  {
+		
+		barcodeImageView.subviews.forEach{ $0.removeFromSuperview() }
+		
+		if let barcobeNumber = barcodeTextField.text {
+			
+		let barcodetype = getBarcodeType(nubmer: barcobeNumber.characters.count)
+			
+			if let barcodegen  = gen.generateCode(barcobeNumber, machineReadableCodeObjectType: barcodetype) {
+				print(barcodetype)
+				
+				barcodeImageView.layer.borderWidth = 1
+				barcodeImageView.image = RSAbstractCodeGenerator.resizeImage(barcodegen, targetSize: barcodeImageView.bounds.size, contentMode: UIViewContentMode.center)
+				
+				//barcodeImageView.image = RSAbstractCodeGenerator.resizeImage(barcodegen, targetSize: CGSize(width: 320, height: 200), contentMode: UIViewContentMode.center)
+				
+				
+				
+			} else {
+				barcodeImageView.image = UIImage()
+				addLabel(onImageView: barcodeImageView, withText: "WRONG BARCODE NUMBER")
+			}
+			
+		} else {
+			addLabel(onImageView: barcodeImageView, withText: "ADD BARCODE")
+		}
+		
+	}
+	
 	var card: CardMO?
 	
 	fileprivate var imagePicker: WDImagePicker!
@@ -22,19 +73,43 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	
 	fileprivate var choosingFront = true
 	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier ==  "Scan" {
+			
+			//print(tableView.indexPathForSelectedRow )
+			
+			if let destination = segue.destination as? BarcodeReaderViewController {
+				if let obj = sender as? NewCardViewController {
+					destination.delegate = obj
+				}
+			}
+		}
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		tableView.separatorStyle = .none
 		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
 		
-		updateFields() 
+		updateFields()
+		
+		barcodeTextField.delegate = self
 		
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapfrontImageView(sender:)))
 		frontImageView.addGestureRecognizer(tapGesture)
 		
 		let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(self.tapbackImageView(sender:)))
 		backImageView.addGestureRecognizer(tapGestureBack)
+		
+		
+		let tapGestureBarcode = UITapGestureRecognizer(target: self, action: #selector(self.tapbarcodeImageView(sender:)))
+		barcodeImageView.addGestureRecognizer(tapGestureBarcode)
+
+		
+		//barcodeTextField.text = "2060037278269"
+		//barcodeImageView.subviews.forEach{ $0.removeFromSuperview() }
+		//barcodeImageView.image = RSUnifiedCodeGenerator.shared.generateCode("2060037278269", machineReadableCodeObjectType: AVMetadataObject.ObjectType.ean13._rawValue as String)
 		
 		// Uncomment the following line to preserve selection between presentations
 		// self.clearsSelectionOnViewWillAppear = false
@@ -53,44 +128,85 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		chooseImage()
 	}
 	
-	func updateFields() {
+	@objc func tapbarcodeImageView(sender: UITapGestureRecognizer) {
 		
-		if let editedCard  = card {
-			
-
-				nameTextField.text = editedCard.name ?? ""
-				//descriptionTextView.text
-				//frontImageView.image
-				//backImageView.image
-			
-			
-		}
+		performSegue(withIdentifier: "Scan", sender: self)
 		
-		
-		let frontImageLabel =  UILabel()
-		
-		frontImageLabel.textColor = UIColor.black
-		frontImageLabel.frame = frontImageView.bounds
-		frontImageLabel.backgroundColor = UIColor.clear
-		frontImageLabel.textColor = Theme.Colors.TintColor.color
-		frontImageLabel.textAlignment = .center
-		frontImageLabel.text = "ADD FRONTSIDE"
-		frontImageView.addSubview(frontImageLabel)
-		
-		let backImageLabel =  UILabel()
-		
-		backImageLabel.textColor = UIColor.black
-		backImageLabel.frame = backImageView.bounds
-		backImageLabel.backgroundColor = UIColor.clear
-		backImageLabel.textColor = Theme.Colors.TintColor.color
-		backImageLabel.textAlignment = .center
-		backImageLabel.text = "ADD BACKSIDE"
-		backImageView.addSubview(backImageLabel)
-
 		
 		
 	}
 	
+	func updateFields() {
+		
+		if let editedCard  = card {
+			// edit mode
+			
+			nameTextField.text = editedCard.name ?? ""
+			descriptionTextView.text = editedCard.summary ?? ""
+			barcodeTextField.text = editedCard.barcode ?? ""
+			
+			if let imageFile = editedCard.frontimage {
+				
+				if let imageToRotate = FileManagerHelper.instance.getImageFromDisk(withName: imageFile) {
+					frontImageView.image = imageToRotate
+				}
+				
+			} else {
+				addLabel(onImageView: frontImageView, withText: "ADD FRONTSIDE")
+			}
+			
+			if let imageFile = editedCard.backtimage {
+				
+				if let imageToRotate = FileManagerHelper.instance.getImageFromDisk(withName: imageFile) {
+					backImageView.image = imageToRotate
+				}
+				
+			} else{
+				addLabel(onImageView: backImageView, withText: "ADD BACKSIDE")
+			}
+			
+			if let imageFile = editedCard.barcodeimage {
+				
+				if let imageToRotate = FileManagerHelper.instance.getImageFromDisk(withName: imageFile) {
+					barcodeImageView.image = imageToRotate
+				}
+				
+			} else {
+				generateBarcodeImage()
+			}
+			
+			
+			
+		} else {
+			//new card
+			
+			addLabel(onImageView: frontImageView, withText: "ADD FRONTSIDE")
+			addLabel(onImageView: backImageView, withText: "ADD BACKSIDE")
+			addLabel(onImageView: barcodeImageView, withText: "ADD BARCODE")
+			
+		}
+		
+		
+		
+	}
+	
+	private func addLabel(onImageView imageView:UIImageView, withText text:String) {
+	
+		let label =  UILabel()
+		label.frame 			= imageView.bounds
+		label.backgroundColor 	= UIColor.clear
+		label.textColor 		= Theme.Colors.TintColor.color
+		label.textAlignment 	= .center
+		label.text 				= text
+		imageView.addSubview(label)
+		
+	}
+	
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		guard let text = textField.text else { return true }
+		let newLength = text.characters.count + string.characters.count - range.length
+		return newLength <= limitLength
+	}
 	
 	
 	func chooseImage() {
@@ -137,9 +253,9 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	
 	@IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
 		
-		if nameTextField.text == "" ||  descriptionTextView.text == "" || (frontImageView.image == nil && backImageView.image == nil ) {
+		if nameTextField.text == "" ||  descriptionTextView.text == "" || barcodeTextField.text == "" || (frontImageView.image == nil && backImageView.image == nil  && barcodeImageView.image == nil ) {
 			
-			let alertController = UIAlertController(title: NSLocalizedString("Oops", comment: "Oops"), message: NSLocalizedString("We can't proceed because one of the fields is blank. Please note that all fields are required.", comment: "Input error message"), preferredStyle: .alert)
+			let alertController = UIAlertController(title: NSLocalizedString("Oops", comment: "Oops"), message: NSLocalizedString("We can't proceed because all least one of the required field is blank", comment: "Input error message"), preferredStyle: .alert)
 			
 			let alertAction = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default, handler: nil)
 			
@@ -154,36 +270,39 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		
 		// Saving the card to database
 		if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-			let newCard = CardMO(context: appDelegate.persistentContainer.viewContext)
+			
+			let newCard = card ?? CardMO(context: appDelegate.persistentContainer.viewContext)
+			
 			newCard.name = nameTextField.text
 			newCard.summary = descriptionTextView.text
+			newCard.barcode = barcodeTextField.text
+			newCard.tag = 0
 			
 			if let cardImage = frontImageView.image {
-				
-				
 				let frontSide = nameTextField.text! + "_front.jpeg"
-				
 				newCard.frontimage	= frontSide
 				FileManagerHelper.instance.saveImageToDisk(image: cardImage, withName: frontSide)
-				
-				print("Saving data to context ...")
-				appDelegate.saveContext()
 			}
 			
-			if let cardImage = backImageView.image {
-				
-				
+			if let backImage = backImageView.image {
 				let backside = nameTextField.text! + "_back.jpeg"
-				
 				newCard.backtimage	= backside
-				FileManagerHelper.instance.saveImageToDisk(image: cardImage, withName: backside)
-				
-				print("Saving data to context ...")
-				appDelegate.saveContext()
+				FileManagerHelper.instance.saveImageToDisk(image: backImage, withName: backside)
 			}
+			
+			
+			if let barcodeImage = barcodeImageView.image {
+				let barcodeSide = nameTextField.text! + "_barcode.jpeg"
+				newCard.barcodeimage	= barcodeSide
+				FileManagerHelper.instance.saveImageToDisk(image: barcodeImage, withName: barcodeSide)
+			}
+			
+			appDelegate.saveContext()
 		}
 		
-		dismiss(animated: true, completion: nil)
+		//dismiss(animated: true, completion: nil)
+		
+		self.navigationController?.popToRootViewController(animated: true)
 		
 	}
 	

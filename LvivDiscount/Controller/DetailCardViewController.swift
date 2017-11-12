@@ -18,10 +18,6 @@ class DetailCardViewController: UIViewController, CardPageViewControllerDelegate
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		
-		
-		// Do any additional setup after loading the view.
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -35,7 +31,21 @@ class DetailCardViewController: UIViewController, CardPageViewControllerDelegate
 		if let pageViewController = destination as? CardPVC {
 			cardPVC = pageViewController
 			cardPVC?.cardDelegate = self
-			cardPVC?.pageImages = [card.frontimage!, card.backtimage!,card.backtimage!]
+			
+			var pageimages:[String] = []
+			
+			if card.frontimage != nil {
+				pageimages.append(card.frontimage!)
+			}
+			if card.backtimage != nil {
+				pageimages.append(card.backtimage!)
+			}
+			if card.barcodeimage != nil {
+				pageimages.append(card.barcodeimage!)
+			}
+			
+			
+			cardPVC?.pageImages = pageimages
 		}
 	}
 	
