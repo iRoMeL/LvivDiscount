@@ -373,7 +373,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="NbS-iq-edn">
-                                                    <rect key="frame" x="8" y="37" width="359" height="187"/>
+                                                    <rect key="frame" x="8" y="37" width="359" height="179.5"/>
                                                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="tintColor" red="0.50980392159999999" green="0.66274509800000003" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -661,7 +661,7 @@
         <!--SETTINGS-->
         <scene sceneID="MqK-2M-cPs">
             <objects>
-                <tableViewController id="B2U-j8-gbN" customClass="SettingsVC" customModule="RoMeL" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="B2U-j8-gbN" customClass="SettingsVC" customModule="LvivDiscount" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="IVt-ZG-5Oz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
