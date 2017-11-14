@@ -12,8 +12,6 @@ import RSBarcodes_Swift
 
 class BarcodeReaderViewController: RSCodeReaderViewController {
 	
-	@IBOutlet var toggle: UIButton!
-	
 	var delegate:SetBarcodeDelegate!
 	
 	private var barcode: String = ""
@@ -21,17 +19,10 @@ class BarcodeReaderViewController: RSCodeReaderViewController {
 	private var dispatched: Bool = false
 	private let gen = RSUnifiedCodeGenerator.shared
 	
-	@IBAction func switchCamera(_ sender: AnyObject?) {
-		
-	}
-	
+
 	@IBAction func close(_ sender: AnyObject?) {
 		print("close called.")
 		dismiss(animated: true, completion: nil)
-	}
-	
-	@IBAction func toggle(_ sender: AnyObject?) {
-		
 	}
 	
 	

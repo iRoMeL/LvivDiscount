@@ -121,11 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				52BC558D1FA68E02003A46D5 /* AppDelegate.swift */,
-				529FAF291FB129470097F1B1 /* AppAppearance.swift */,
-				529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */,
-				5245CD251FB5B5D900EDE1D2 /* ManagerCard.swift */,
-				52FBBC531FB8B44A0048C355 /* SetBarcodeDelegate.swift */,
-				529FAF2F1FB1FD620097F1B1 /* Extensions */,
 				52BC558C1FA68E02003A46D5 /* LvivDiscount */,
 				52BC558B1FA68E02003A46D5 /* Products */,
 				CF49E9DAC5820C1776FD2576 /* Pods */,
@@ -144,13 +139,13 @@
 		52BC558C1FA68E02003A46D5 /* LvivDiscount */ = {
 			isa = PBXGroup;
 			children = (
-				52BC559C1FA68E02003A46D5 /* Info.plist */,
 				529FAF1A1FB0F39B0097F1B1 /* WD */,
 				52899B691FAA6A6400949684 /* Storyboard */,
 				52BC55A51FA68FAA003A46D5 /* View */,
 				52BC55A41FA68FA1003A46D5 /* Model */,
 				52BC55A61FA68FB1003A46D5 /* Controller */,
 				52BC55A71FA68FBC003A46D5 /* Supporting files */,
+				529FAF2F1FB1FD620097F1B1 /* Extensions */,
 			);
 			path = LvivDiscount;
 			sourceTree = "<group>";
@@ -158,6 +153,9 @@
 		52BC55A41FA68FA1003A46D5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				52FBBC531FB8B44A0048C355 /* SetBarcodeDelegate.swift */,
+				5245CD251FB5B5D900EDE1D2 /* ManagerCard.swift */,
+				529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,6 +163,7 @@
 		52BC55A51FA68FAA003A46D5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				529FAF291FB129470097F1B1 /* AppAppearance.swift */,
 				529FAF271FB107200097F1B1 /* UIImageViewX.swift */,
 				5245CD231FB4FC4A00EDE1D2 /* UITextFieldX.swift */,
 				52B4AC7B1FA9AFC70028DC7D /* CardCell.swift */,
@@ -190,6 +189,7 @@
 		52BC55A71FA68FBC003A46D5 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				52BC559C1FA68E02003A46D5 /* Info.plist */,
 				52899B6A1FAA6BE500949684 /* Card.xcdatamodeld */,
 				52BC55971FA68E02003A46D5 /* Assets.xcassets */,
 			);
@@ -501,7 +501,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 947J5M2JCF;
-				INFOPLIST_FILE = LvivDiscount/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/LvivDiscount/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = to.romel.LvivDiscount;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -518,7 +518,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 947J5M2JCF;
-				INFOPLIST_FILE = LvivDiscount/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/LvivDiscount/Supporting files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = to.romel.LvivDiscount;
 				PRODUCT_NAME = "$(TARGET_NAME)";

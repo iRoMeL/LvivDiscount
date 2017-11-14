@@ -13,27 +13,35 @@ import AVFoundation
 
 class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, WDImagePickerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,SetBarcodeDelegate{
 	
-
-	
+	// MARK : IBOutlet
 	
 	@IBOutlet weak var nameTextField: RoundedTextField!
 	@IBOutlet weak var descriptionTextView: UITextView!
 	@IBOutlet weak var frontImageView: UIImageView!
 	@IBOutlet weak var backImageView: UIImageView!
 	@IBOutlet weak var barcodeImageView: UIImageView!
-	private let gen = RSUnifiedCodeGenerator.shared
-	private let limitLength = 13
-	private let limitSummaryLength = 70
-	private var barcodeType = AVMetadataObject.ObjectType.ean13.rawValue
 	@IBOutlet weak var barcodeTextField: RoundedTextField!
-	
 	@IBOutlet weak var segmentedControl: UISegmentedControl!
 	
+	// MARK : IBAction
 	@IBAction func barcodeEntered(_ sender: RoundedTextField) {
 		
 		generateBarcodeImage()
 	
 	}
+	
+	// MARK : VARS
+	private let manager = ManagerCard()
+	private let gen = RSUnifiedCodeGenerator.shared
+	private let limitLength = 13
+	private let limitSummaryLength = 100
+	private var barcodeType = AVMetadataObject.ObjectType.ean13.rawValue
+	public  var card: CardMO?
+	fileprivate var imagePicker: WDImagePicker!
+	fileprivate var imagePickerController: UIImagePickerController!
+	fileprivate var choosingFront = true
+	
+	//MARK: - BARCODE
 	
 	func getBarcodeType(nubmer : Int ) -> String {
 		switch nubmer {
@@ -56,8 +64,6 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 			barcodeImageView.layer.borderWidth = 1
 			barcodeImageView.image = RSAbstractCodeGenerator.resizeImage(barcodegen, targetSize: barcodeImageView.bounds.size, contentMode: UIViewContentMode.center)
 		}
-
-		
 		
 	}
 	
@@ -90,12 +96,8 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		
 	}
 	
-	var card: CardMO?
 	
-	fileprivate var imagePicker: WDImagePicker!
-	fileprivate var imagePickerController: UIImagePickerController!
-	
-	fileprivate var choosingFront = true
+	// MARK:- NAVIGATION
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier ==  "Scan" {
@@ -111,32 +113,9 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	}
 	
 	func textViewDidChange(_ textView: UITextView) {
-		//tableView.beginUpdates()
-		//tableView.endUpdates()
-		//tableView.sizeToFit()
-		//textView.sizeToFit()
-		//textView.sizeToFit()
-		
-//		let newSize = textView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-//		textView.frame = CGRect(origin: textView.frame.origin, size: newSize)
-//
-		if textView == descriptionTextView {
-			
-			let currentHeight = textView.frame.size.height
-			
-			textView.frame.size.height = 0 // you have to do that because if not it's not working with the proper content size
-			
-			textView.frame.size = textView.contentSize // here you detext your textView's content size and make it resize.
-			
-			let newHeight = textView.frame.size.height
-			
-			let heightDifference = newHeight - currentHeight // get the height difference from before and after editing
-			
-			descriptionTextView.frame.size.height += heightDifference
-			
-		}
 	}
 	
+	//	MARK: - VIEW
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -145,8 +124,6 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		tableView.estimatedRowHeight = 150
 		tableView.rowHeight = UITableViewAutomaticDimension
 
-		
-		
 		updateFields()
 		
 		barcodeTextField.delegate = self
@@ -158,37 +135,8 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		let tapGestureBack = UITapGestureRecognizer(target: self, action: #selector(self.tapbackImageView(sender:)))
 		backImageView.addGestureRecognizer(tapGestureBack)
 		
-		
 		let tapGestureBarcode = UITapGestureRecognizer(target: self, action: #selector(self.tapbarcodeImageView(sender:)))
 		barcodeImageView.addGestureRecognizer(tapGestureBarcode)
-
-		
-		//barcodeTextField.text = "2060037278269"
-		//barcodeImageView.subviews.forEach{ $0.removeFromSuperview() }
-		//barcodeImageView.image = RSUnifiedCodeGenerator.shared.generateCode("2060037278269", machineReadableCodeObjectType: AVMetadataObject.ObjectType.ean13._rawValue as String)
-		
-		// Uncomment the following line to preserve selection between presentations
-		// self.clearsSelectionOnViewWillAppear = false
-		
-		// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-		// self.navigationItem.rightBarButtonItem = self.editButtonItem
-	}
-	
-	@objc func tapfrontImageView(sender: UITapGestureRecognizer) {
-		choosingFront = true
-		chooseImage()
-	}
-	
-	@objc func tapbackImageView(sender: UITapGestureRecognizer) {
-		choosingFront = false
-		chooseImage()
-	}
-	
-	@objc func tapbarcodeImageView(sender: UITapGestureRecognizer) {
-		
-		performSegue(withIdentifier: "Scan", sender: self)
-		
-		
 		
 	}
 	
@@ -249,7 +197,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	}
 	
 	private func addLabel(onImageView imageView:UIImageView, withText text:String) {
-	
+		
 		let label =  UILabel()
 		label.frame 			= imageView.bounds
 		label.backgroundColor 	= UIColor.clear
@@ -259,6 +207,28 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		imageView.addSubview(label)
 		
 	}
+	
+	//	MARK: - Tap Actions
+	
+	@objc func tapfrontImageView(sender: UITapGestureRecognizer) {
+		choosingFront = true
+		chooseImage()
+	}
+	
+	@objc func tapbackImageView(sender: UITapGestureRecognizer) {
+		choosingFront = false
+		chooseImage()
+	}
+	
+	@objc func tapbarcodeImageView(sender: UITapGestureRecognizer) {
+		
+		performSegue(withIdentifier: "Scan", sender: self)
+		
+	}
+	
+
+	
+	//	MARK: - TEXT Limit
 	
 	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 		guard let text = textField.text else { return true }
@@ -272,9 +242,43 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		return newLength <= limitSummaryLength
 	}
 	
+	//MARK: - SAVE
+	
+	@IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+		
+		if nameTextField.text == "" ||  descriptionTextView.text == "" || barcodeTextField.text == "" || (frontImageView.image == nil && backImageView.image == nil)  || barcodeImageView.image == nil  {
+			
+			let alertController = UIAlertController(title: NSLocalizedString("Oops", comment: "Oops"), message: NSLocalizedString("We can't proceed because all least one of the required field is blank", comment: "Input error message"), preferredStyle: .alert)
+			
+			let alertAction = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default, handler: nil)
+			
+			alertController.addAction(alertAction)
+			present(alertController, animated: true, completion: nil)
+			
+			return
+		}
+		
+		print("Name: \(nameTextField.text ?? "")")
+		print("Description: \(descriptionTextView.text ?? "")")
+
+		
+		if let editedCard = card {
+			//edit
+			manager.edit(card: editedCard, name: nameTextField.text!, summary: descriptionTextView.text!, barcode: barcodeTextField.text!, frontImage: frontImageView.image, backImage: backImageView.image, barcodeImage: barcodeImageView.image, tag: segmentedControl.selectedSegmentIndex)
+			
+		} else {
+			//creat new card
+			manager.addNew(name: nameTextField.text!, summary: descriptionTextView.text!, barcode: barcodeTextField.text!, frontImage: frontImageView.image, backImage: backImageView.image, barcodeImage: barcodeImageView.image, tag: segmentedControl.selectedSegmentIndex)
+			
+		}
+		
+		self.navigationController?.popToRootViewController(animated: true)
+		
+	}
+	
+	//	MARK: - IMAGE:CHOOSE
 	
 	func chooseImage() {
-		
 		
 		let photoSourceRequestController = UIAlertController(title: "", message: NSLocalizedString("Choose your photo source", comment: "Choose your photo source"), preferredStyle: .actionSheet)
 		
@@ -308,92 +312,9 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		present(photoSourceRequestController, animated: true, completion: nil)
 		
 	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-	
-	
-	@IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-		
-		if nameTextField.text == "" ||  descriptionTextView.text == "" || barcodeTextField.text == "" || (frontImageView.image == nil && backImageView.image == nil)  || barcodeImageView.image == nil  {
-			
-			let alertController = UIAlertController(title: NSLocalizedString("Oops", comment: "Oops"), message: NSLocalizedString("We can't proceed because all least one of the required field is blank", comment: "Input error message"), preferredStyle: .alert)
-			
-			let alertAction = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default, handler: nil)
-			
-			alertController.addAction(alertAction)
-			present(alertController, animated: true, completion: nil)
-			
-			return
-		}
-		
-		print("Name: \(nameTextField.text ?? "")")
-		print("Description: \(descriptionTextView.text ?? "")")
 
 		
-		
-		// Saving the card to database
-		if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-			
-			
-				
-			
-			let newCard = card ?? CardMO(context: appDelegate.persistentContainer.viewContext)
-			
-			newCard.name = nameTextField.text
-			newCard.summary = descriptionTextView.text
-			newCard.barcode = barcodeTextField.text
-			newCard.tag = Int64(segmentedControl.selectedSegmentIndex)
-			if card == nil {
-				newCard.uid = UUID().uuidString
-			}
-				
-			
-			
-			if let cardImage = frontImageView.image {
-				let frontSide = newCard.uid! + "_front.jpeg"
-				newCard.frontimage	= frontSide
-				FileManagerHelper.instance.saveImageToDisk(image: cardImage, withName: frontSide)
-			}
-			
-			if let backImage = backImageView.image {
-				let backside = newCard.uid! + "_back.jpeg"
-				newCard.backtimage	= backside
-				FileManagerHelper.instance.saveImageToDisk(image: backImage, withName: backside)
-			}
-			
-			
-			if let barcodeImage = barcodeImageView.image {
-				let barcodeSide = newCard.uid! + "_barcode.jpeg"
-				newCard.barcodeimage	= barcodeSide
-				FileManagerHelper.instance.saveImageToDisk(image: barcodeImage, withName: barcodeSide)
-			}
-			
-			print("frontimage: \(newCard.frontimage ?? "")")
-			print("backtimage: \(newCard.backtimage ?? "")")
-			print("barcodeimage: \(newCard.barcodeimage ?? "")")
-			print("uid: \(newCard.uid ?? "")")
-
-			
-			appDelegate.saveContext()
-		}
-		
-		//dismiss(animated: true, completion: nil)
-		
-		self.navigationController?.popToRootViewController(animated: true)
-		
-	}
-	
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if indexPath.row == 0 {
-			
-			
-		}
-	}
-	
-
+	//MARK: - IMAGE_PICKER
 	
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 		if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {

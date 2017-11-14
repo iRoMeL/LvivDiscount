@@ -24,13 +24,9 @@ class CardContentViewController: UIViewController {
 
 		if let imageToRotate = FileManagerHelper.instance.getImageFromDisk(withName: imageFile) {
 			
-			
-			//print(imageToRotate.imageOrientation.rawValue)
-			
 			let aaa = fixOrientation(img: imageToRotate).rotate(degrees: 90)
 			contentImageView.image = aaa
-			//print(aaa?.imageOrientation.rawValue)
-			//contentImageView.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(M_PI)) / 180.0)
+
 		}
 		
 	}

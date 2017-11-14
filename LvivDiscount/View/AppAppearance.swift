@@ -2,7 +2,7 @@
 //  AppAppearance.swift
 //  RoMeL
 //
-//  Created by Roman Melnychok on 13.11.16.
+//  Created by Roman Melnychok on 13.11.17
 //  Copyright © 2016 RoMeL. All rights reserved.
 //
 
@@ -60,7 +60,7 @@ func applyAppAppearance() {
  // styleTabBarItem()
  // styleTintColor()
   styleTableView()
-	
+ styleSearchBar()
 }
 
 
@@ -74,9 +74,12 @@ private func styleTableView() {
 	
 }
 
-private func styleSearchController(){
+private func styleSearchBar(){
 	
-	//appearanceProxy.backgroundColor = UIColor.blue
+	
+	let appearanceProxy = UISearchBar.appearance()
+	appearanceProxy.setTextColor(color: Theme.Colors.TintColor.color)
+		
 	
 	
 }

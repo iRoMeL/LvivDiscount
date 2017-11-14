@@ -15,7 +15,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	fileprivate var menu: MenuView!
 	private var cards:[CardMO] = []
 	private var searchResults: [CardMO] = []
-	
+	private let manager = ManagerCard()
 	private var fetchResultController: NSFetchedResultsController<CardMO>!
 	private var searchController: UISearchController!
 	
@@ -23,10 +23,13 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		dismiss(animated: true, completion: nil)
 	}
 	
+	// MARK: - Menu
+	
 	fileprivate func loadMenu() {
 		menu = {
 			let menu = MenuView()
 			menu.delegate = self
+			
 			menu.items = items
 			return menu
 		}()
@@ -34,58 +37,41 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		tableView.addSubview(menu)
 	}
 	
-	// MARK: - Items
 	fileprivate let items = (0..<7).map {
 		MenuItem(image: UIImage(named: "menu_icon_\($0)")!)
 	}
 	
-	// MARK: - Model
-	fileprivate var model:String = ""{//
+	fileprivate var model:String = "" {
 		didSet {
-			//title = model.description
 			
-			if isViewLoaded {
-//				let center: CGPoint = {
-//					let itemFrame = menu.frameOfItem(at: menu.selectedIndex!)
-//					let itemCenter = CGPoint(x: itemFrame.midX, y: itemFrame.midY)
-//					var convertedCenter = imageView.convert(itemCenter, from: menu)
-//					convertedCenter.y = 0
-//
-//					return convertedCenter
-//				}()
-//
-//				let transition = CircularRevealTransition(layer: imageView.layer, center: center)
-//				transition.start()
-				
-				//imageView.image = model.image
-			}
 		}
 	}
 	
+	// MARK: - VIEW
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-	    loadMenu()
+		loadMenu()
 		
 		tableView.cellLayoutMarginsFollowReadableWidth = true
 		//navigationController?.navigationBar.prefersLargeTitles = true
-
+		
 		//Theme
 		tableView.separatorColor = Theme.Colors.LightTextColor.color
 		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
-
+		
 		tableView.estimatedRowHeight = 120
 		tableView.rowHeight = UITableViewAutomaticDimension
 		
 		
 		//кнопка  Sort
 		self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(showSortActionSheet))
-
+		
 		
 		//при початковому завантажені приховуємо пошук
 		let offset = CGPoint(x: 0, y: 44)
 		tableView.setContentOffset(offset, animated: true)
-
+		
 		// Adding a search bar
 		searchController = UISearchController(searchResultsController: nil)
 		searchController.searchResultsUpdater = self
@@ -96,13 +82,14 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		searchController.searchBar.enablesReturnKeyAutomatically = true
 		searchController.searchBar.keyboardAppearance		= .dark
 		searchController.searchBar.sizeToFit()
-				
-		if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-			textFieldInsideSearchBar.textColor = Theme.Colors.TintColor.color
-			textFieldInsideSearchBar.borderStyle = .roundedRect
-			textFieldInsideSearchBar.backgroundColor = Theme.Colors.BackgroundColor.color
-		}
-
+		
+		
+		//		if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+		//			textFieldInsideSearchBar.textColor = Theme.Colors.TintColor.color
+		//			textFieldInsideSearchBar.borderStyle = .roundedRect
+		//			textFieldInsideSearchBar.backgroundColor = Theme.Colors.BackgroundColor.color
+		//		}
+		
 		
 		definesPresentationContext = true
 		
@@ -137,16 +124,9 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		tableView.tableFooterView = UIView()
 	}
 	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
 	
 	
-	
-	
-	// MARK: - Table view data source
-	
+	// MARK: - Table view data source/delegate
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
@@ -159,10 +139,6 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 	}
 	
-	var isFilterActive: Bool {
-		return (searchController.isActive && searchController.searchBar.text != "")
-	}
-	
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		
@@ -170,7 +146,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			
 			let card = (isFilterActive) ? searchResults[indexPath.row] : cards[indexPath.row]
 			
-			//cell.summary.numberOfLines = 0
+			
 			cell.configureCell(with:card)
 			
 			
@@ -180,9 +156,18 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		return UITableViewCell()
 	}
 	
+	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		if isFilterActive {
+			return false
+		} else {
+			return true
+		}
+	}
+	
+	
+	//	MARK: - Sorting
 	
 	@objc func showSortActionSheet() {
-		
 		
 		let alertController = UIAlertController(title: "Sorting ", message: nil, preferredStyle: .actionSheet)
 		
@@ -194,10 +179,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 		
 		let ZAAction = UIAlertAction(title: "TITLE: Z-A", style: .default) { _ in
-			
 			self.cards.sort(){$0.name! > $1.name!}
 			self.tableView.reloadData()
-			
 		}
 		
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
@@ -223,30 +206,18 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		
 	}
-
 	
+	//MARK: - SWIPE
 	override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 		
 		
 		//DELETE BUTTON
 		let deleteAction = UIContextualAction(style: .destructive, title: "") { (action, sourceView, completionHandler) in
 			// Delete the row from the data store
-			if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-				let context = appDelegate.persistentContainer.viewContext
-				let restaurantToDelete = self.fetchResultController.object(at: indexPath)
-				context.delete(restaurantToDelete)
-				
-				if restaurantToDelete.frontimage != nil {
-					FileManagerHelper.instance.deleteImageFromDisk(withName: restaurantToDelete.frontimage!)
-				}
-				
-				if restaurantToDelete.backtimage != nil {
-					FileManagerHelper.instance.deleteImageFromDisk(withName: restaurantToDelete.backtimage!)
-				}
-				
-				
-				appDelegate.saveContext()
-			}
+			
+			let cardToDelete = self.fetchResultController.object(at: indexPath)
+			
+			self.manager.delete(card: cardToDelete)
 			
 			// Call completion handler with true to indicate
 			completionHandler(true)
@@ -274,31 +245,19 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			}
 			
 			self.present(activityController, animated: true, completion: nil)
+			
 			completionHandler(true)
 		}
 		
 		//EDIT BUTTON
 		let editAction = UIContextualAction(style: .normal, title: "") { (action, sourceView, completionHandler) in
 			
+			let editCard = self.fetchResultController.object(at: indexPath)
+			self.performSegue(withIdentifier: "EditCard", sender: editCard)
 			
-			if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-				let context = appDelegate.persistentContainer.viewContext
-				let restaurant = self.fetchResultController.object(at: indexPath)
-				
-					self.performSegue(withIdentifier: "EditCard", sender: restaurant)
-				
-			}
-
-			
-			//if var card = self.cards[indexPath.row]  {
-				//self.performSegue(withIdentifier: "EditCard", sender: self.cards[indexPath.row])
-			//}
-			
-			
-			// Call completion handler with true to indicate
 			completionHandler(true)
 		}
-
+		
 		
 		
 		// Customize the action buttons
@@ -315,17 +274,15 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		return swipeConfiguration
 	}
 	
-	
-	
-	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-		if isFilterActive {
-			return false
-		} else {
-			return true
-		}
+	//MARK: - SEARCH
+	var isFilterActive: Bool {
+		return (searchController.isActive && searchController.searchBar.text != "")
 	}
 	
-	
+	func search(with searchString: String) {
+		searchController.searchBar.text = searchString
+		searchController.searchBar.becomeFirstResponder()
+	}
 	
 	func filterContent(for searchText: String) {
 		searchResults = cards.filter({ (card) -> Bool in
@@ -345,9 +302,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 	}
 	
-	
 	// MARK: - Navigation
-
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "DetailCardViewController"  {
 			if let indexPath = tableView.indexPathForSelectedRow {
@@ -356,9 +312,6 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			}
 		}
 		if segue.identifier ==  "EditCard" {
-			
-			//print(tableView.indexPathForSelectedRow )
-			
 			if let destination = segue.destination as? NewCardViewController {
 				if let editedCard = sender as? CardMO {
 					destination.card = editedCard
@@ -367,7 +320,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 		
 	}
-
+	
 	
 	
 	
@@ -405,10 +358,6 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		tableView.endUpdates()
 	}
 	
-	func search(with searchString: String) {
-		searchController.searchBar.text = searchString
-		searchController.searchBar.becomeFirstResponder()
-	}
 	
 	
 }
@@ -417,38 +366,12 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 extension CardsTableViewController: MenuViewDelegate {
 	
 	func menu(_ menu: MenuView, didSelectItemAt index: Int) {
-		//model = model.next()
 		
-		// Fetch data from data store
-		let fetchRequest: NSFetchRequest<CardMO> = CardMO.fetchRequest()
-		let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-		fetchRequest.sortDescriptors = [sortDescriptor]
-		//fetchRequest.predicate = NSPredicate(format: "tag == %@", Int64(index))
-		
-		
-		
-		if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-			let context = appDelegate.persistentContainer.viewContext
-			fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-			fetchResultController.delegate = self
-			
-			do {
-				try fetchResultController.performFetch()
-				if let fetchedObjects = fetchResultController.fetchedObjects {
-					cards = fetchedObjects.filter({ (card) -> Bool in
-						if index == 0 {
-							return true
-						} else{
-							return card.tag == Int64(index)
-						}
-
-					})
-				}
-			} catch {
-				print(error)
-			}
+		manager.getCards(withtag: index) { (arrayOfCards) in
+			self.cards = arrayOfCards
 		}
-
+		
+		
 		tableView.reloadData()
 		
 	}

@@ -95,8 +95,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="CARDS" id="Xq5-Ya-6iU">
-                        <barButtonItem key="leftBarButtonItem" title="Sort" image="sorting" style="plain" id="90q-ZC-aei"/>
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="p2F-r7-gHY">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="p2F-r7-gHY">
                             <connections>
                                 <segue destination="fzb-OH-0kV" kind="show" id="qgP-0E-DWc"/>
                             </connections>
@@ -444,12 +443,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="New Card" id="MAj-3K-Fmm">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="Xah-b9-jRw">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Xah-b9-jRw">
                             <connections>
                                 <segue destination="Pf0-Uc-2vZ" kind="unwind" unwindAction="unwindToHomeWithSegue:" id="BO4-vH-COy"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="JH2-lD-rBJ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="JH2-lD-rBJ">
                             <connections>
                                 <action selector="saveButtonTapped:" destination="fzb-OH-0kV" id="2mN-hP-xL4"/>
                             </connections>
@@ -567,21 +566,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sHJ-fg-iKz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5197.6000000000004" y="149.77511244377811"/>
-        </scene>
-        <!--Scan View Controller-->
-        <scene sceneID="hrJ-E3-bm9">
-            <objects>
-                <viewController id="rES-N4-q4a" customClass="ScanViewController" customModule="LvivDiscount" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="V7o-td-pIh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <viewLayoutGuide key="safeArea" id="MpA-t1-LHf"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IQI-j9-7QC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5150" y="-500"/>
         </scene>
         <!--Barcode Reader View Controller-->
         <scene sceneID="lyt-3i-NXg">
@@ -747,7 +731,6 @@
         <image name="menu_icon_5" width="45" height="38"/>
         <image name="menu_icon_6" width="45" height="38"/>
         <image name="placeholder" width="300" height="300"/>
-        <image name="sorting" width="22" height="22"/>
         <image name="tab_settings" width="32" height="32"/>
         <image name="tab_settings_selected" width="32" height="32"/>
     </resources>
