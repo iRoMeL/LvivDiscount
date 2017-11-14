@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Persei
 
+
 class CardsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
 	
 	fileprivate var menu: MenuView!
@@ -53,6 +54,14 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		loadMenu()
 		
+		//3D-TOUCH
+		if (traitCollection.forceTouchCapability == .available) {
+			registerForPreviewing(with: self as UIViewControllerPreviewingDelegate, sourceView: view)
+		}
+		
+		createQuickActions()
+		
+		
 		tableView.cellLayoutMarginsFollowReadableWidth = true
 		//navigationController?.navigationBar.prefersLargeTitles = true
 		
@@ -82,7 +91,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		searchController.searchBar.enablesReturnKeyAutomatically = true
 		searchController.searchBar.keyboardAppearance		= .dark
 		searchController.searchBar.sizeToFit()
-		
+		searchController.searchBar.setTextColor(color: .white)
+
 		
 		//		if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
 		//			textFieldInsideSearchBar.textColor = Theme.Colors.TintColor.color
@@ -99,6 +109,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}else {
 			tableView.tableHeaderView = searchController.searchBar
 		}
+		
 		
 		
 		// Fetch data from data store
@@ -367,14 +378,65 @@ extension CardsTableViewController: MenuViewDelegate {
 	
 	func menu(_ menu: MenuView, didSelectItemAt index: Int) {
 		
-		manager.getCards(withtag: index) { (arrayOfCards) in
-			self.cards = arrayOfCards
+		if index==0 {
+			manager.getCards() { (arrayOfCards) in
+				self.cards = arrayOfCards
+			}
+		} else{
+			manager.getCards(withtag: index){ (arrayOfCards) in
+				self.cards = arrayOfCards
+			}
 		}
+		
 		
 		
 		tableView.reloadData()
 		
 	}
+}
+
+//MARK: - 3D-TOUCH
+extension CardsTableViewController : UIViewControllerPreviewingDelegate{
+	
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+		
+		guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
+		
+		guard let cell = tableView.cellForRow(at: indexPath) else {
+			return nil
+		}
+		
+		guard let detailCardViewControler = storyboard?.instantiateViewController(withIdentifier: "DetailCardViewController")as? DetailCardViewController else {
+			return nil
+		}
+		
+		let selectedCard = cards[indexPath.row]
+		detailCardViewControler.card = selectedCard
+		//detailCardViewControler.preferredContentSize = CGSize(width: 0.0, height: 460)
+		
+		
+		previewingContext.sourceRect = cell.frame
+		
+		return detailCardViewControler
+	}
+	
+	
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+		show(viewControllerToCommit, sender: self)
+	}
+	
+	func createQuickActions() {
+		// Add Quick Actions
+		if traitCollection.forceTouchCapability == UIForceTouchCapability.available {
+			if let bundleIdentifier = Bundle.main.bundleIdentifier {
+				let shortcutItem1 = UIApplicationShortcutItem(type: "\(bundleIdentifier).OpenCards", localizedTitle: "Cards", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(templateImageName: "loyalty-card"), userInfo: nil)
+				let shortcutItem2 = UIApplicationShortcutItem(type: "\(bundleIdentifier).OpenSettings", localizedTitle: "Settings", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(templateImageName: "tab_settings"), userInfo: nil)
+				let shortcutItem3 = UIApplicationShortcutItem(type: "\(bundleIdentifier).NewCard", localizedTitle: "New Card", localizedSubtitle: nil, icon: UIApplicationShortcutIcon(type: .add), userInfo: nil)
+				UIApplication.shared.shortcutItems = [shortcutItem1, shortcutItem2, shortcutItem3]
+			}
+		}
+	}
+	
 }
 
 public extension UISearchBar {

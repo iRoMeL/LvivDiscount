@@ -71,17 +71,18 @@ private func styleTableView() {
 	appearanceProxy.backgroundView?.backgroundColor = Theme.Colors.BackgroundColor.color
 
 	
-	
 }
 
 private func styleSearchBar(){
 	
 	
-	let appearanceProxy = UISearchBar.appearance()
-	appearanceProxy.setTextColor(color: Theme.Colors.TintColor.color)
+	//let appearanceProxy = UISearchBar.appearance()
+	//appearanceProxy.setTextColor(color: Theme.Colors.TintColor.color)
 		
+	//UITextField.a([UISearchBar.self]).textColor = UIColor.white
 	
-	
+	//UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).textColor = UIColor.blueColor()
+	UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = .white
 }
 
 
@@ -102,7 +103,6 @@ private func styleNavBar() {
 //		NSForegroundColorAttributeName: Theme.Colors.TintColor.color
 //	]
 	navBarAppearance.barStyle = UIBarStyle.black
-	//navBarAppearance.barTintColor = Theme.Colors.TintColor.color
 	navBarAppearance.tintColor = Theme.Colors.TintColor.color
 	navBarAppearance.backgroundColor = Theme.Colors.BackgroundColor.color
 }

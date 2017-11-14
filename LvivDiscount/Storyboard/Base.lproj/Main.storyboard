@@ -97,7 +97,7 @@
                     <navigationItem key="navigationItem" title="CARDS" id="Xq5-Ya-6iU">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="p2F-r7-gHY">
                             <connections>
-                                <segue destination="fzb-OH-0kV" kind="show" id="qgP-0E-DWc"/>
+                                <segue destination="fzb-OH-0kV" kind="show" identifier="NewCard" id="qgP-0E-DWc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -112,7 +112,7 @@
         <!--Detail Card View Controller-->
         <scene sceneID="9Nq-65-om3">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="bJ8-oq-Ck2" customClass="DetailCardViewController" customModule="LvivDiscount" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailCardViewController" hidesBottomBarWhenPushed="YES" id="bJ8-oq-Ck2" customClass="DetailCardViewController" customModule="LvivDiscount" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xs0-QH-4u6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -162,7 +162,7 @@
         <!--New Card-->
         <scene sceneID="x4l-io-8yV">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="fzb-OH-0kV" customClass="NewCardViewController" customModule="LvivDiscount" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="NewCard" hidesBottomBarWhenPushed="YES" id="fzb-OH-0kV" customClass="NewCardViewController" customModule="LvivDiscount" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="TQz-6I-3de">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -735,6 +735,6 @@
         <image name="tab_settings_selected" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zHv-5U-Sve"/>
+        <segue reference="qgP-0E-DWc"/>
     </inferredMetricsTieBreakers>
 </document>
