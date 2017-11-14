@@ -145,6 +145,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		if let editedCard  = card {
 			// edit mode
 			
+			title 	= "CARD"
 			nameTextField.text = editedCard.name ?? ""
 			descriptionTextView.text = editedCard.summary ?? ""
 			barcodeTextField.text = editedCard.barcode ?? ""

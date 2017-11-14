@@ -16,8 +16,6 @@ class ManagerCard {
 	
 	public func addNew(name: String, summary: String, barcode: String, frontImage: UIImage?, backImage: UIImage?, barcodeImage: UIImage?, tag:Int ) {
 		
-		//let entity 	=  NSEntityDescription.entity(forEntityName: "Card", in: context)
-		//let newCard = CardMO(entity: entity!, insertInto:context)
 		let newCard		= CardMO(context: context)
 		let uuid    	= UUID().uuidString
 		

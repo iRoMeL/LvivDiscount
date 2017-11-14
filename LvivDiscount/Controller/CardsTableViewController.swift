@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import Persei
+import CoreSpotlight
+import MobileCoreServices
 
 
 class CardsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchResultsUpdating {
@@ -78,8 +80,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		
 		//при початковому завантажені приховуємо пошук
-		let offset = CGPoint(x: 0, y: 44)
-		tableView.setContentOffset(offset, animated: true)
+		//let offset = CGPoint(x: 0, y: 44)
+		//tableView.setContentOffset(offset, animated: true)
 		
 		// Adding a search bar
 		searchController = UISearchController(searchResultsController: nil)
@@ -91,7 +93,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		searchController.searchBar.enablesReturnKeyAutomatically = true
 		searchController.searchBar.keyboardAppearance		= .dark
 		searchController.searchBar.sizeToFit()
-		searchController.searchBar.setTextColor(color: .white)
+		//searchController.searchBar.setTextColor(color: .brown)
 
 		
 		//		if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
@@ -105,7 +107,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		if #available(iOS 11.0, *) {
 			self.navigationItem.searchController = searchController
-			searchController.isActive = true
+		searchController.isActive = true
 		}else {
 			tableView.tableHeaderView = searchController.searchBar
 		}
@@ -133,9 +135,61 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 		
 		tableView.tableFooterView = UIView()
+		
+		setupSearchableContent()
 	}
 	
+	//MARK:- SPOTLIGHT
+	func setupSearchableContent() {
+		var searchableItems:Array<CSSearchableItem> = []
+		
+		for item in cards {
+			
+			//let imagePathParts                              = movie.image.componentsSeparatedByString(".")
+			
+			let searchableItemAttributeSet                  = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+			
+			searchableItemAttributeSet.title                = item.name
+			
+			//searchableItemAttributeSet.thumbnailURL         =  NSBundle.mainBundle().URLForResource(imagePathParts.first, withExtension: imagePathParts.last)
+			searchableItemAttributeSet.thumbnailURL 		= URL(fileURLWithPath: item.frontimage!)//) (item.frontimage)// ?? item.backtimage
+			searchableItemAttributeSet.contentDescription   = item.summary ?? ""
+			searchableItemAttributeSet.keywords             = [item.name ?? ""] //+ (item.summary ?? "")
+			
+			//
+			let searchableItem = CSSearchableItem(uniqueIdentifier: "com.Spotlight.\(item.uid ?? "0")", domainIdentifier: "cards", attributeSet: searchableItemAttributeSet)
+			searchableItems.append(searchableItem)
+		}
+		
+		//
+		CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: ["cards"]) { (error) -> Void in
+			if error != nil {
+				print(error!.localizedDescription)
+			} else {
+				CSSearchableIndex.default().indexSearchableItems(searchableItems) { (error) -> Void in
+					if error != nil {
+						print(error!.localizedDescription)
+					}
+				}
+			}
+		}
+	}
 	
+	override func restoreUserActivityState(_ activity: NSUserActivity) {
+		if activity.activityType == CSSearchableItemActionType {
+			if let userInfo = activity.userInfo {
+				let selectedCard   = userInfo[CSSearchableItemActivityIdentifier] as! String
+				let idselectedCard  = selectedCard.components(separatedBy: ".").last!
+				let scards = cards.filter({ (card) -> Bool in
+					return card.uid == idselectedCard
+				})
+				
+				if let findedcards = scards.first {
+					performSegue(withIdentifier: "EditCard", sender: findedcards)
+				}
+			}
+		}
+	}
 	
 	// MARK: - Table view data source/delegate
 	override func numberOfSections(in tableView: UITableView) -> Int {
@@ -362,6 +416,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		if let fetchedObjects = controller.fetchedObjects {
 			cards = fetchedObjects as! [CardMO]
+			setupSearchableContent()
 		}
 	}
 	

@@ -67,6 +67,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.saveContext()
 	}
 
+	func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+		let viewController = (window?.rootViewController as! UINavigationController).viewControllers[0] as! CardsTableViewController
+		viewController.restoreUserActivityState(userActivity)
+		
+		return true
+	}
 	// MARK: - Core Data stack
 
 	lazy var persistentContainer: NSPersistentContainer = {
