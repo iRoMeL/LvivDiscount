@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LvivDiscount/Controller/CardPVC.swift"
+            timestampString = "532305759.443779"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "contentViewController(at:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LvivDiscount/Controller/DetailCardViewController.swift"
+            timestampString = "532553628.535389"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "DetailCardViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LvivDiscount.DetailCardViewController.card.getter : Swift.ImplicitlyUnwrappedOptional&lt;LvivDiscount.CardMO&gt;"
+                  moduleName = "LvivDiscount"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/romel/Desktop/LvivDiscount/LvivDiscount/LvivDiscount/Controller/DetailCardViewController.swift"
+                  timestampString = "531606211.543044"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "104">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LvivDiscount.DetailCardViewController.card.setter : Swift.ImplicitlyUnwrappedOptional&lt;LvivDiscount.CardMO&gt;"
+                  moduleName = "LvivDiscount"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/romel/Desktop/LvivDiscount/LvivDiscount/LvivDiscount/Controller/DetailCardViewController.swift"
+                  timestampString = "531606211.544403"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LvivDiscount.DetailCardViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; LvivDiscount.DetailCardViewController"
+                  moduleName = "LvivDiscount"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/romel/Desktop/LvivDiscount/LvivDiscount/LvivDiscount/Controller/DetailCardViewController.swift"
+                  timestampString = "531606211.545717"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LvivDiscount.DetailCardViewController.init(coder: __ObjC.NSCoder) -&gt; Swift.Optional&lt;LvivDiscount.DetailCardViewController&gt;"
+                  moduleName = "LvivDiscount"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/romel/Desktop/LvivDiscount/LvivDiscount/LvivDiscount/Controller/DetailCardViewController.swift"
+                  timestampString = "531606211.547032"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "144">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
