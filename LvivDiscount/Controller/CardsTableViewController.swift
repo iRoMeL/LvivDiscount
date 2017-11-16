@@ -93,20 +93,15 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		searchController.searchBar.enablesReturnKeyAutomatically = true
 		searchController.searchBar.keyboardAppearance		= .dark
 		searchController.searchBar.sizeToFit()
-		//searchController.searchBar.setTextColor(color: .brown)
-
 		
-		//		if let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField {
-		//			textFieldInsideSearchBar.textColor = Theme.Colors.TintColor.color
-		//			textFieldInsideSearchBar.borderStyle = .roundedRect
-		//			textFieldInsideSearchBar.backgroundColor = Theme.Colors.BackgroundColor.color
-		//		}
+		UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: Theme.Colors.TintColor.color]
 		
 		
 		definesPresentationContext = true
 		
 		if #available(iOS 11.0, *) {
 			self.navigationItem.searchController = searchController
+			self.navigationItem.hidesSearchBarWhenScrolling = false
 		searchController.isActive = true
 		}else {
 			tableView.tableHeaderView = searchController.searchBar
@@ -139,29 +134,41 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		setupSearchableContent()
 	}
 	
-	//MARK:- SPOTLIGHT
+	//MARK:- CORE_SPOTLIGHT
+	
 	func setupSearchableContent() {
 		var searchableItems:Array<CSSearchableItem> = []
 		
 		for item in cards {
 			
-			//let imagePathParts                              = movie.image.componentsSeparatedByString(".")
-			
-			let searchableItemAttributeSet                  = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+			let searchableItemAttributeSet                  = CSSearchableItemAttributeSet(itemContentType: kUTTypeVCard as String)
 			
 			searchableItemAttributeSet.title                = item.name
 			
-			//searchableItemAttributeSet.thumbnailURL         =  NSBundle.mainBundle().URLForResource(imagePathParts.first, withExtension: imagePathParts.last)
-			searchableItemAttributeSet.thumbnailURL 		= URL(fileURLWithPath: item.frontimage!)//) (item.frontimage)// ?? item.backtimage
+			
+//			if item.frontimage != nil {
+//				if let image = FileManagerHelper.instance.getImageFromDisk(withName: item.frontimage!),
+//					let data = UIImagePNGRepresentation(image) {
+//					searchableItemAttributeSet.thumbnailData = data
+//				}
+//			}
+			
+			if let image = UIImage(named: "menu_icon_\(item.tag)") ,
+				let data = UIImagePNGRepresentation(image) {
+				searchableItemAttributeSet.thumbnailData = data
+			}
+			
+			
+			
 			searchableItemAttributeSet.contentDescription   = item.summary ?? ""
-			searchableItemAttributeSet.keywords             = [item.name ?? ""] //+ (item.summary ?? "")
+			searchableItemAttributeSet.keywords             = [item.name ?? "",item.summary ?? ""]
 			
 			//
-			let searchableItem = CSSearchableItem(uniqueIdentifier: "com.Spotlight.\(item.uid ?? "0")", domainIdentifier: "cards", attributeSet: searchableItemAttributeSet)
+			let searchableItem = CSSearchableItem(uniqueIdentifier: "\(item.uid!)", domainIdentifier: "cards", attributeSet: searchableItemAttributeSet)
 			searchableItems.append(searchableItem)
 		}
 		
-		//
+		//indexing
 		CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: ["cards"]) { (error) -> Void in
 			if error != nil {
 				print(error!.localizedDescription)
@@ -175,15 +182,16 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}
 	}
 	
+	
+	
 	override func restoreUserActivityState(_ activity: NSUserActivity) {
 		if activity.activityType == CSSearchableItemActionType {
 			if let userInfo = activity.userInfo {
-				let selectedCard   = userInfo[CSSearchableItemActivityIdentifier] as! String
-				let idselectedCard  = selectedCard.components(separatedBy: ".").last!
+				let idselectedCard   = userInfo[CSSearchableItemActivityIdentifier] as! String
 				let scards = cards.filter({ (card) -> Bool in
 					return card.uid == idselectedCard
 				})
-				
+
 				if let findedcards = scards.first {
 					performSegue(withIdentifier: "EditCard", sender: findedcards)
 				}
@@ -222,7 +230,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	}
 	
 	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-		if isFilterActive {
+		if searchController.isActive {
 			return false
 		} else {
 			return true
@@ -280,7 +288,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		let deleteAction = UIContextualAction(style: .destructive, title: "") { (action, sourceView, completionHandler) in
 			// Delete the row from the data store
 			
-			let cardToDelete = self.fetchResultController.object(at: indexPath)
+			let cardToDelete = self.cards[indexPath.row]//self.fetchResultController.object(at: indexPath)
 			
 			self.manager.delete(card: cardToDelete)
 			
@@ -317,7 +325,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		//EDIT BUTTON
 		let editAction = UIContextualAction(style: .normal, title: "") { (action, sourceView, completionHandler) in
 			
-			let editCard = self.fetchResultController.object(at: indexPath)
+			let editCard = self.cards[indexPath.row]//self.fetchResultController.object(at: indexPath)
+			
 			self.performSegue(withIdentifier: "EditCard", sender: editCard)
 			
 			completionHandler(true)
@@ -416,7 +425,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		if let fetchedObjects = controller.fetchedObjects {
 			cards = fetchedObjects as! [CardMO]
-			setupSearchableContent()
+			//setupSearchableContent()
 		}
 	}
 	
@@ -492,15 +501,6 @@ extension CardsTableViewController : UIViewControllerPreviewingDelegate{
 		}
 	}
 	
-}
-
-public extension UISearchBar {
-	
-	public func setTextColor(color: UIColor) {
-		let svs = subviews.flatMap { $0.subviews }
-		guard let tf = (svs.filter { $0 is UITextField }).first as? UITextField else { return }
-		tf.textColor = color
-	}
 }
 
 

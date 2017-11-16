@@ -79,9 +79,11 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 				print(barcodetype)
 				
 				barcodeImageView.layer.borderWidth = 1
+				//barcodeImageView.image = barcodegen
+				
 				barcodeImageView.image = RSAbstractCodeGenerator.resizeImage(barcodegen, targetSize: barcodeImageView.bounds.size, contentMode: UIViewContentMode.center)
 				
-				//barcodeImageView.image = RSAbstractCodeGenerator.resizeImage(barcodegen, targetSize: CGSize(width: 320, height: 200), contentMode: UIViewContentMode.center)
+				barcodeImageView.image = RSAbstractCodeGenerator.resizeImage(barcodegen, targetSize: CGSize(width: 640, height: 400), contentMode: UIViewContentMode.center)
 				
 				
 				

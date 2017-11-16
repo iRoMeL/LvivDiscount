@@ -57,10 +57,8 @@ extension UIColor {
 func applyAppAppearance() {
   styleNavBar()
   styleTabBar()
- // styleTabBarItem()
- // styleTintColor()
   styleTableView()
- styleSearchBar()
+	
 }
 
 
@@ -73,36 +71,21 @@ private func styleTableView() {
 	
 }
 
-private func styleSearchBar(){
-	
-	
-	//let appearanceProxy = UISearchBar.appearance()
-	//appearanceProxy.setTextColor(color: Theme.Colors.TintColor.color)
-		
-	//UITextField.a([UISearchBar.self]).textColor = UIColor.white
-	
-	//UITextField.appearanceWhenContainedInInstancesOfClasses([UISearchBar.self]).textColor = UIColor.blueColor()
-	UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).textColor = .white
-}
 
 
 
 private func styleNavBar() {
-//  let appearanceProxy = UINavigationBar.appearance()
-//  appearanceProxy.barTintColor = UIColor.ggDarkGreen
-//  let font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightThin)
-//  
-//  appearanceProxy.titleTextAttributes = [
-//    NSForegroundColorAttributeName : UIColor.white,
-//    NSFontAttributeName            : font
-//  ]
 	
+	//test
 	let navBarAppearance = UINavigationBar.appearance()
-//	navBarAppearance.titleTextAttributes = [
-//		NSFontAttributeName: Theme.Fonts.BoldTitleFont.font,
-//		NSForegroundColorAttributeName: Theme.Colors.TintColor.color
-//	]
-	navBarAppearance.barStyle = UIBarStyle.black
+	//navBarAppearance.titleTextAttributes = [
+		//NSAttributedStringKey.font: Theme.Fonts.BoldTitleFont.font,
+	//	NSAttributedStringKey.foregroundColor: Theme.Colors.TintColor.color
+	//]
+	
+	
+	navBarAppearance.barStyle = .black
+	
 	navBarAppearance.tintColor = Theme.Colors.TintColor.color
 	navBarAppearance.backgroundColor = Theme.Colors.BackgroundColor.color
 }
@@ -110,7 +93,6 @@ private func styleNavBar() {
 private func styleTabBar() {
   let appearanceProxy = UITabBar.appearance()
 	appearanceProxy.barStyle = UIBarStyle.black
- //appearanceProxy.barTintColor = UIColor.ggDarkGreen
 }
 
 private func styleTintColor() {
@@ -118,8 +100,3 @@ private func styleTintColor() {
   appearanceProxy.tintColor = UIColor.ggGreen
 }
 
-private func styleTabBarItem() {
-  //let appearanceProxy = UITabBarItem.appearance()
- // appearanceProxy.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.white], for: .selected)
- // appearanceProxy.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.ggGreen], for: UIControlState())
-}

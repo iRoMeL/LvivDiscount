@@ -9,27 +9,27 @@
 import UIKit
 
 class CardCell: UITableViewCell {
-
+	
 	@IBOutlet weak var imagecell: UIImageView!
 	@IBOutlet weak var name: UILabel!
 	@IBOutlet weak var summary: UILabel!
 	
 	
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
+	override func awakeFromNib() {
+		super.awakeFromNib()
+		// Initialization code
+	}
+	
+	override func setSelected(_ selected: Bool, animated: Bool) {
+		super.setSelected(selected, animated: animated)
 		
-    }
+		
+	}
 	
 	
 	func configureCell(with card: CardMO)  {
 		
-		self.imagecell.image  = nil
+		//self.imagecell.image  = nil
 		
 		if card.frontimage != nil {
 			
@@ -38,7 +38,7 @@ class CardCell: UITableViewCell {
 				if let imageCell = FileManagerHelper.instance.getImageFromDisk(withName: card.frontimage!) {
 					let resizedImage = resizeImage(image: imageCell, newWidth: CGFloat(320))
 					DispatchQueue.main.sync {
-					self.imagecell.image = resizedImage
+						self.imagecell.image = resizedImage
 					}
 				}
 				
@@ -46,23 +46,30 @@ class CardCell: UITableViewCell {
 			
 		} else {
 			if card.backtimage != nil {
-				if let imageCell = FileManagerHelper.instance.getImageFromDisk(withName: card.backtimage!) {
-					self.imagecell.image = resizeImage(image: imageCell, newWidth: CGFloat(320))
-				}}
+				
+				DispatchQueue.global(qos: .background).async {
+					if let imageCell = FileManagerHelper.instance.getImageFromDisk(withName: card.backtimage!) {
+						
+						let resizedImage = resizeImage(image: imageCell, newWidth: CGFloat(320))
+						DispatchQueue.main.sync {
+							self.imagecell.image = resizedImage
+						}
+					}
+					
+				}
+			}
+		}
+			
+			
+			
+			
+			self.name.text			= card.name ?? ""
+			self.summary.text		= card.summary ?? ""
+			
+			
+			
 		}
 		
 		
 		
-		
-		
-		self.name.text			= card.name ?? ""
-		//self.summary.numberOfLines = 0
-		self.summary.text		= card.summary ?? ""
-		
-		
-		
-	}
-	
-
-
 }

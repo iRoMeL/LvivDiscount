@@ -67,12 +67,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.saveContext()
 	}
 
-	func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-		let viewController = (window?.rootViewController as! UINavigationController).viewControllers[0] as! CardsTableViewController
-		viewController.restoreUserActivityState(userActivity)
+		
+	func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+
+		guard let tabBarController = window?.rootViewController as? UITabBarController else {
+			return false
+		}
+		
+		if let navController = tabBarController.viewControllers?[0] {
+			let cardsTableViewController = navController.childViewControllers[0]
+			cardsTableViewController.restoreUserActivityState(userActivity)
+		} else {
+			return false
+		}
 		
 		return true
+		
 	}
+	
 	// MARK: - Core Data stack
 
 	lazy var persistentContainer: NSPersistentContainer = {

@@ -21,12 +21,15 @@ class CardContentViewController: UIViewController {
 		super.viewDidLoad()
 		
 		
-
-		if let imageToRotate = FileManagerHelper.instance.getImageFromDisk(withName: imageFile) {
-			
-			let aaa = fixOrientation(img: imageToRotate).rotate(degrees: 90)
-			contentImageView.image = aaa
-
+		DispatchQueue.global(qos: .background).async {
+			if let imageToRotate = FileManagerHelper.instance.getImageFromDisk(withName: self.imageFile) {
+				
+				
+				DispatchQueue.main.sync {
+					let imageWithFixedOrientation = self.fixOrientation(img: imageToRotate).rotate(degrees: 90)
+					self.contentImageView.image = imageWithFixedOrientation
+				}
+			}
 		}
 		
 	}
