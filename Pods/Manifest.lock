@@ -1,0 +1,15 @@
+PODS:
+  - Persei (3.1.1)
+  - RSBarcodes_Swift (3.0.3)
+
+DEPENDENCIES:
+  - Persei (~> 3.1)
+  - RSBarcodes_Swift (~> 3.0.3)
+
+SPEC CHECKSUMS:
+  Persei: 6d36b54e40eccd437211548d3f897269c85d3a13
+  RSBarcodes_Swift: 3b4a9c2e81fe9f435a26f18a1b8b826665e7cf89
+
+PODFILE CHECKSUM: 32acd8f2e79a4e2e7e24b5002bc2bac1bf1e500c
+
+COCOAPODS: 1.1.1

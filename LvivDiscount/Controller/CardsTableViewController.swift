@@ -38,6 +38,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		}()
 		
 		tableView.addSubview(menu)
+		menu.selectedIndex = 0
 	}
 	
 	fileprivate let items = (0..<7).map {
@@ -52,11 +53,24 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	
 	// MARK: - VIEW
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewDidAppear(true)
+		
+		menu.selectedIndex = 0
+		manager.getCards(completion: { (arrayOfCards) in
+			self.cards = arrayOfCards
+			self.tableView.reloadData()
+		})
+	}
+	
+	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		loadMenu()
+		
+		
 		
 		//3D-TOUCH
 		if (traitCollection.forceTouchCapability == .available) {
@@ -407,11 +421,13 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		
 		if segue.identifier == "NewCard"  {
 			
-			menu.selectedIndex = 0
-			manager.getCards(completion: { (arrayOfCards) in
-				self.cards = arrayOfCards
-				self.tableView.reloadData()
-			})
+			if  menu.selectedIndex != 0 {
+				menu.selectedIndex = 0
+				manager.getCards(completion: { (arrayOfCards) in
+					self.cards = arrayOfCards
+					self.tableView.reloadData()
+				})
+			}
 		}
 		
 	}

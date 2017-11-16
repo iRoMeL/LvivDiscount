@@ -104,6 +104,7 @@
                     <connections>
                         <segue destination="fzb-OH-0kV" kind="show" identifier="EditCard" id="zHv-5U-Sve"/>
                         <segue destination="bJ8-oq-Ck2" kind="show" identifier="DetailCardSpotlight" id="IPr-d3-AZm"/>
+                        <segue destination="fzb-OH-0kV" kind="show" identifier="NewCardSpotlight" id="eEw-at-8G3"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0QV-Mj-TA9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -807,7 +808,7 @@
         <image name="tab_settings_selected" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qgP-0E-DWc"/>
+        <segue reference="eEw-at-8G3"/>
         <segue reference="IPr-d3-AZm"/>
     </inferredMetricsTieBreakers>
 </document>

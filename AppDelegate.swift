@@ -158,7 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		case .NewCard:
 			if let navController = tabBarController.viewControllers?[0] {
 				let cardsTableViewController = navController.childViewControllers[0]
-				cardsTableViewController.performSegue(withIdentifier: "NewCard", sender: nil)
+				cardsTableViewController.performSegue(withIdentifier: "NewCardSpotlight", sender: nil)
 			} else {
 				return false
 			}
