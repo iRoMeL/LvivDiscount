@@ -28,6 +28,7 @@
 		529FAF2C1FB1C1240097F1B1 /* FileManagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */; };
 		529FAF2E1FB1FD480097F1B1 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529FAF2D1FB1FD480097F1B1 /* UIImage+Ext.swift */; };
 		52A175B81FBE17BB0054FED8 /* AboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A175B71FBE17BB0054FED8 /* AboutVC.swift */; };
+		52A175BA1FBE250D0054FED8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A175B91FBE250D0054FED8 /* Settings.swift */; };
 		52B4AC7C1FA9AFC70028DC7D /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B4AC7B1FA9AFC70028DC7D /* CardCell.swift */; };
 		52BC558E1FA68E02003A46D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BC558D1FA68E02003A46D5 /* AppDelegate.swift */; };
 		52BC55931FA68E02003A46D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52BC55911FA68E02003A46D5 /* Main.storyboard */; };
@@ -63,6 +64,7 @@
 		529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerHelper.swift; sourceTree = "<group>"; };
 		529FAF2D1FB1FD480097F1B1 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		52A175B71FBE17BB0054FED8 /* AboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutVC.swift; sourceTree = "<group>"; };
+		52A175B91FBE250D0054FED8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		52B4AC7B1FA9AFC70028DC7D /* CardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		52BC558A1FA68E02003A46D5 /* LvivDiscount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LvivDiscount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52BC558D1FA68E02003A46D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			children = (
 				52FBBC531FB8B44A0048C355 /* SetBarcodeDelegate.swift */,
 				5245CD251FB5B5D900EDE1D2 /* ManagerCard.swift */,
+				52A175B91FBE250D0054FED8 /* Settings.swift */,
 				529FAF2B1FB1C1240097F1B1 /* FileManagerHelper.swift */,
 			);
 			path = Model;
@@ -363,6 +366,7 @@
 				52899B6C1FAA6BE500949684 /* Card.xcdatamodeld in Sources */,
 				52899B701FAA71A800949684 /* NewCardViewController.swift in Sources */,
 				529FAF261FB0F3C20097F1B1 /* WDImageCropView.swift in Sources */,
+				52A175BA1FBE250D0054FED8 /* Settings.swift in Sources */,
 				529FAF081FAF8AD40097F1B1 /* UIColor.swift in Sources */,
 				529FAF221FB0F3C20097F1B1 /* WDImageCropViewController.swift in Sources */,
 			);

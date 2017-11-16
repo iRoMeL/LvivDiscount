@@ -11,43 +11,25 @@ import Foundation
 
 class SettingsVC: UITableViewController {
 
-    @IBOutlet weak var NaturalLanguageSupportSwitch: UISwitch!
-    
-    @IBAction func ChangeNLS(_ sender: UISwitch) {}
 	
-	@IBOutlet weak var episodeLanguage: UILabel!
+	@IBOutlet weak var showSettings: UILabel!
 	
-	@IBOutlet weak var showLanguage: UILabel!
-	
-	@IBOutlet weak var loginBtn: UILabel!
-	
-	
-	
+
+
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		if indexPath.section == 0{
 			if indexPath.row == 0  {
 				
 				
-//				if episodeLanguageUkrainian  {
-//					episodeLanguage.text = "англійською"
-//					episodeLanguageUkrainian = false
-//				} else {
-//					episodeLanguage.text = "українською"
-//					episodeLanguageUkrainian = true
-//					
-//				}
-				
-				
-			} else if indexPath.row == 1  {
-				
-//				if showLanguageUkrainian  {
-//					showLanguage.text = "англійською"
-//					showLanguageUkrainian = false
-//				} else {
-//					showLanguage.text = "українською"
-//					showLanguageUkrainian = true
-//				}
+				if showDetailView  {
+					showSettings.text = "Edit View"
+					showDetailView = false
+				} else {
+					showSettings.text = "Detail View"
+					showDetailView = true
+					
+				}
 				
 				
 			}
@@ -60,17 +42,11 @@ class SettingsVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		//if episodeLanguageUkrainian  {
-			episodeLanguage.text = "A-Z"
-		//} else {
-		//	episodeLanguage.text = "англійською"
-		//}
-		
-//		if showLanguageUkrainian  {
-//			showLanguage.text = "українською"
-//		} else {
-//			showLanguage.text = "англійською"
-//		}
+		if showDetailView  {
+			showSettings.text = "Detail View"
+		} else {
+			showSettings.text = "Edit View"
+		}
 		
 		tableView.backgroundColor = Theme.Colors.BackgroundColor.color
 		tableView.tableFooterView = UIView()

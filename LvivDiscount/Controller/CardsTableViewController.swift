@@ -51,6 +51,8 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	}
 	
 	// MARK: - VIEW
+	
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -78,10 +80,6 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		//кнопка  Sort
 		self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "sorting"), style: .plain, target: self, action: #selector(showSortActionSheet))
 		
-		
-		//при початковому завантажені приховуємо пошук
-		//let offset = CGPoint(x: 0, y: 44)
-		//tableView.setContentOffset(offset, animated: true)
 		
 		// Adding a search bar
 		searchController = UISearchController(searchResultsController: nil)
@@ -193,7 +191,12 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 				})
 
 				if let findedcards = scards.first {
-					performSegue(withIdentifier: "EditCard", sender: findedcards)
+					if showDetailView {
+						performSegue(withIdentifier: "DetailCardSpotlight", sender: findedcards)
+					} else {
+						performSegue(withIdentifier: "EditCard", sender: findedcards)
+					}
+					
 				}
 			}
 		}
@@ -385,12 +388,30 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 				destinationController.card = (isFilterActive) ? searchResults[indexPath.row] : cards[indexPath.row]
 			}
 		}
+		
 		if segue.identifier ==  "EditCard" {
 			if let destination = segue.destination as? NewCardViewController {
 				if let editedCard = sender as? CardMO {
 					destination.card = editedCard
 				}
 			}
+		}
+		
+		if segue.identifier == "DetailCardSpotlight"  {
+			if let destination = segue.destination as? DetailCardViewController {
+				if let editedCard = sender as? CardMO {
+					destination.card = editedCard
+				}
+			}
+		}
+		
+		if segue.identifier == "NewCard"  {
+			
+			menu.selectedIndex = 0
+			manager.getCards(completion: { (arrayOfCards) in
+				self.cards = arrayOfCards
+				self.tableView.reloadData()
+			})
 		}
 		
 	}
@@ -457,6 +478,8 @@ extension CardsTableViewController: MenuViewDelegate {
 		tableView.reloadData()
 		
 	}
+	
+	
 }
 
 //MARK: - 3D-TOUCH

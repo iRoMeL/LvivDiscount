@@ -46,7 +46,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BROCARD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5Z-py-rtT">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BROCARD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5Z-py-rtT">
                                             <rect key="frame" x="176" y="8" width="158" height="44"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="K4H-MV-1qO"/>
@@ -103,6 +103,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="fzb-OH-0kV" kind="show" identifier="EditCard" id="zHv-5U-Sve"/>
+                        <segue destination="bJ8-oq-Ck2" kind="show" identifier="DetailCardSpotlight" id="IPr-d3-AZm"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0QV-Mj-TA9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -164,7 +165,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="NewCard" hidesBottomBarWhenPushed="YES" id="fzb-OH-0kV" customClass="NewCardViewController" customModule="LvivDiscount" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="TQz-6I-3de">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="850"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -327,7 +328,7 @@
                                                             <color key="tintColor" red="0.50980392159999999" green="0.66274509800000003" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="34"/>
-                                                            <textInputTraits key="textInputTraits" keyboardType="numberPad" keyboardAppearance="alert" returnKeyType="done"/>
+                                                            <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
                                                                     <color key="value" red="0.50980392159999999" green="0.66274509800000003" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -377,12 +378,11 @@
                                                     <color key="tintColor" red="0.50980392159999999" green="0.66274509800000003" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="34"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="done" smartQuotesType="no"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" smartQuotesType="no"/>
                                                 </textView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="NbS-iq-edn" firstAttribute="top" secondItem="dE1-v3-vye" secondAttribute="bottom" constant="8" id="9P8-JK-OWe"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="NbS-iq-edn" secondAttribute="bottom" constant="-7.5" id="TUd-Ph-30p"/>
                                                 <constraint firstItem="NbS-iq-edn" firstAttribute="trailing" secondItem="YEE-4Z-VfN" secondAttribute="trailingMargin" id="ZK6-HZ-GvB"/>
                                                 <constraint firstItem="dE1-v3-vye" firstAttribute="trailing" secondItem="YEE-4Z-VfN" secondAttribute="trailingMargin" id="lq7-Cg-K2N"/>
                                                 <constraint firstItem="dE1-v3-vye" firstAttribute="leading" secondItem="YEE-4Z-VfN" secondAttribute="leadingMargin" id="mGt-9w-OhN"/>
@@ -454,6 +454,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <size key="freeformSize" width="375" height="850"/>
                     <connections>
                         <outlet property="backImageView" destination="XJi-Sk-OYu" id="wv1-Zn-rw7"/>
                         <outlet property="barcodeImageView" destination="sBa-YC-Ekk" id="B0l-xY-NGT"/>
@@ -468,7 +469,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7zw-cg-P7V" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Pf0-Uc-2vZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3742" y="-529"/>
+            <point key="canvasLocation" x="3742" y="-807"/>
         </scene>
         <!--CARDS-->
         <scene sceneID="0qf-Eo-Q8g">
@@ -662,15 +663,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SORTING" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fSP-zO-cGm">
-                                                    <rect key="frame" x="15" y="12" width="73" height="20.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="After Spotlight search show:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fSP-zO-cGm">
+                                                    <rect key="frame" x="15" y="12" width="216.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="українською" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bX4-Hg-lo0">
-                                                    <rect key="frame" x="260" y="12" width="100" height="20.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Edit View" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bX4-Hg-lo0">
+                                                    <rect key="frame" x="289" y="12" width="71" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                                     <color key="textColor" red="0.43921568630000002" green="0.58431372550000005" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -715,7 +716,7 @@
                     <navigationItem key="navigationItem" title="SETTINGS" id="hvv-xe-PZt"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="episodeLanguage" destination="bX4-Hg-lo0" id="MLs-8Q-ge0"/>
+                        <outlet property="showSettings" destination="bX4-Hg-lo0" id="Dam-cp-C2Q"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dO1-22-xeR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -807,5 +808,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="qgP-0E-DWc"/>
+        <segue reference="IPr-d3-AZm"/>
     </inferredMetricsTieBreakers>
 </document>

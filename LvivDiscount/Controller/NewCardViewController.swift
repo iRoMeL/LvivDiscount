@@ -16,11 +16,33 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	// MARK : IBOutlet
 	
 	@IBOutlet weak var nameTextField: RoundedTextField!
+		{
+		didSet {
+			nameTextField.tag = 1
+			//nameTextField.becomeFirstResponder()
+			nameTextField.delegate = self
+		}
+	}
 	@IBOutlet weak var descriptionTextView: UITextView!
+//		{
+//		didSet {
+//			descriptionTextView.tag = 3
+//			descriptionTextView.delegate = self
+//		}
+//	}
+	
+	
 	@IBOutlet weak var frontImageView: UIImageView!
 	@IBOutlet weak var backImageView: UIImageView!
 	@IBOutlet weak var barcodeImageView: UIImageView!
-	@IBOutlet weak var barcodeTextField: RoundedTextField!
+	@IBOutlet weak var barcodeTextField: RoundedTextField!{
+		didSet {
+			barcodeTextField.tag = 2
+			barcodeTextField.delegate = self
+		}
+	}
+	
+	
 	@IBOutlet weak var segmentedControl: UISegmentedControl!
 	
 	// MARK : IBAction
@@ -114,8 +136,19 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		}
 	}
 	
-	func textViewDidChange(_ textView: UITextView) {
+	
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		if let nextTextField = view.viewWithTag(textField.tag + 1) {
+			textField.resignFirstResponder()
+			nextTextField.becomeFirstResponder()
+		} else {
+			textField.resignFirstResponder()
+		}
+ 
+		return true
 	}
+	
+
 	
 	//	MARK: - VIEW
 	override func viewDidLoad() {
@@ -241,8 +274,14 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	
 	func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 		guard let textsummary = textView.text else { return true }
+		if text == "\n" {
+			textView.resignFirstResponder()
+		} else {
+		
 		let newLength = textsummary.characters.count + text.characters.count - range.length
 		return newLength <= limitSummaryLength
+		}
+		return true
 	}
 	
 	//MARK: - SAVE
