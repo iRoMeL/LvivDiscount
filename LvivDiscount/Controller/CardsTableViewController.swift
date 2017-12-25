@@ -56,11 +56,6 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewDidAppear(true)
 		
-		menu.selectedIndex = 0
-		manager.getCards(completion: { (arrayOfCards) in
-			self.cards = arrayOfCards
-			self.tableView.reloadData()
-		})
 	}
 	
 	
@@ -176,12 +171,12 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			searchableItemAttributeSet.keywords             = [item.name ?? "",item.summary ?? ""]
 			
 			//
-			let searchableItem = CSSearchableItem(uniqueIdentifier: "\(item.uid!)", domainIdentifier: "cards", attributeSet: searchableItemAttributeSet)
+			let searchableItem = CSSearchableItem(uniqueIdentifier: "\(item.uid!)", domainIdentifier: "forcards", attributeSet: searchableItemAttributeSet)
 			searchableItems.append(searchableItem)
 		}
 		
 		//indexing
-		CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: ["cards"]) { (error) -> Void in
+		CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: ["forcards"]) { (error) -> Void in
 			if error != nil {
 				print(error!.localizedDescription)
 			} else {
@@ -250,7 +245,7 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		if searchController.isActive {
 			return false
 		} else {
-			return true
+			return menu.selectedIndex == 0
 		}
 	}
 	
@@ -430,6 +425,15 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 			}
 		}
 		
+		if segue.identifier ==  "NewCardSpotlight" {
+			if let destination = segue.destination as? NewCardViewController {
+				if let cardName = sender as? String {
+					destination.cardName = cardName
+				}
+			}
+		}
+
+		
 	}
 	
 	
@@ -463,7 +467,9 @@ class CardsTableViewController: UITableViewController, NSFetchedResultsControlle
 		if let fetchedObjects = controller.fetchedObjects {
 			cards = fetchedObjects as! [CardMO]
 			//setupSearchableContent()
+
 		}
+		
 	}
 	
 	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

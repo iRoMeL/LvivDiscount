@@ -59,6 +59,7 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 	private let limitSummaryLength = 100
 	private var barcodeType = AVMetadataObject.ObjectType.ean13.rawValue
 	public  var card: CardMO?
+	public	var cardName:String?
 	fileprivate var imagePicker: WDImagePicker!
 	fileprivate var imagePickerController: UIImagePickerController!
 	fileprivate var choosingFront = true
@@ -222,6 +223,9 @@ class NewCardViewController: UITableViewController,UIGestureRecognizerDelegate, 
 		} else {
 			//new card
 			
+			if let cardName = cardName {
+				nameTextField.text = cardName
+			}
 			addLabel(onImageView: frontImageView, withText: "ADD FRONTSIDE")
 			addLabel(onImageView: backImageView, withText: "ADD BACKSIDE")
 			addLabel(onImageView: barcodeImageView, withText: "SCAN BARCODE")

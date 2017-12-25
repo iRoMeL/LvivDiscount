@@ -166,6 +166,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		return true
 	}
+	
+	//MARK:- CUSTOM URL
+	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+		
+//		print("url \(url)")
+//		print("url host :\(url.host!)")
+//		print("url path :\(url.path)")
+		
+		let cardName : String? = url.host
+		
+		guard let tabBarController = window?.rootViewController as? UITabBarController else {
+			return false
+		}
+		
+		if let navController = tabBarController.viewControllers?[0] {
+			let cardsTableViewController = navController.childViewControllers[0]
+			cardsTableViewController.performSegue(withIdentifier: "NewCardSpotlight", sender: cardName)
+		} else {
+			return false
+		}
+
+		return true
+	
+	}
+	
 
 }
 
